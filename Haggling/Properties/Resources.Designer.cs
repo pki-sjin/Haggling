@@ -59,5 +59,212 @@ namespace Haggling.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 代理商：.
+        /// </summary>
+        internal static string AGENT_TITLE {
+            get {
+                return ResourceManager.GetString("AGENT_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Haggling.
+        /// </summary>
+        internal static string APP_TITLE {
+            get {
+                return ResourceManager.GetString("APP_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 浏览器.
+        /// </summary>
+        internal static string BROWSER_TITLE {
+            get {
+                return ResourceManager.GetString("BROWSER_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 客户端.
+        /// </summary>
+        internal static string CLIENT_TITLE {
+            get {
+                return ResourceManager.GetString("CLIENT_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 启动.
+        /// </summary>
+        internal static string LAUNCH_BUTTON_TITLE {
+            get {
+                return ResourceManager.GetString("LAUNCH_BUTTON_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 启动状态.
+        /// </summary>
+        internal static string LAUNCH_STATE_TITLE {
+            get {
+                return ResourceManager.GetString("LAUNCH_STATE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 模式：.
+        /// </summary>
+        internal static string MODE_TITLE {
+            get {
+                return ResourceManager.GetString("MODE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 启动浏览器登录后执行脚本.
+        /// </summary>
+        internal static string STATUS_CONTENT_BROWSER {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_BROWSER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 浏览器关闭，请点击启动重新开启.
+        /// </summary>
+        internal static string STATUS_CONTENT_BROWSER_CLOSE {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_BROWSER_CLOSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请选择代理商.
+        /// </summary>
+        internal static string STATUS_CONTENT_CHECK_AGENT {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_CHECK_AGENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 验证失败，正在重试，请先登录交易系统.
+        /// </summary>
+        internal static string STATUS_CONTENT_CHECK_FAILED {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_CHECK_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请选择模式.
+        /// </summary>
+        internal static string STATUS_CONTENT_CHECK_MODE {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_CHECK_MODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 验证成功，点击运行脚本.
+        /// </summary>
+        internal static string STATUS_CONTENT_CHECK_SUCCESS {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_CHECK_SUCCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在验证....
+        /// </summary>
+        internal static string STATUS_CONTENT_CHECKING {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_CHECKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 启动客户端登录后验证执行脚本.
+        /// </summary>
+        internal static string STATUS_CONTENT_CLIENT {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_CLIENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 脚本执行失败.
+        /// </summary>
+        internal static string STATUS_CONTENT_EXECUTE_FAILED {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_EXECUTE_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 脚本执行停止.
+        /// </summary>
+        internal static string STATUS_CONTENT_EXECUTE_STOP {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_EXECUTE_STOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 脚本执行成功.
+        /// </summary>
+        internal static string STATUS_CONTENT_EXECUTE_SUCCESS {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_EXECUTE_SUCCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在执行脚本.
+        /// </summary>
+        internal static string STATUS_CONTENT_EXECUTING {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_EXECUTING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 启动失败.
+        /// </summary>
+        internal static string STATUS_CONTENT_FAILED {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请输入完整的脚本信息，代码、价格、数量.
+        /// </summary>
+        internal static string STATUS_CONTENT_INPUT {
+            get {
+                return ResourceManager.GetString("STATUS_CONTENT_INPUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 状态：.
+        /// </summary>
+        internal static string STATUS_TITLE {
+            get {
+                return ResourceManager.GetString("STATUS_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 验证.
+        /// </summary>
+        internal static string VALIDATE_BUTTON_TITLE {
+            get {
+                return ResourceManager.GetString("VALIDATE_BUTTON_TITLE", resourceCulture);
+            }
+        }
     }
 }

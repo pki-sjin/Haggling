@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,78 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AGENT_TITLE" xml:space="preserve">
+    <value>代理商：</value>
+  </data>
+  <data name="APP_TITLE" xml:space="preserve">
+    <value>Haggling</value>
+  </data>
+  <data name="BROWSER_TITLE" xml:space="preserve">
+    <value>浏览器</value>
+  </data>
+  <data name="CLIENT_TITLE" xml:space="preserve">
+    <value>客户端</value>
+  </data>
+  <data name="LAUNCH_BUTTON_TITLE" xml:space="preserve">
+    <value>启动</value>
+  </data>
+  <data name="LAUNCH_STATE_TITLE" xml:space="preserve">
+    <value>启动状态</value>
+  </data>
+  <data name="MODE_TITLE" xml:space="preserve">
+    <value>模式：</value>
+  </data>
+  <data name="STATUS_CONTENT_BROWSER" xml:space="preserve">
+    <value>启动浏览器登录后执行脚本</value>
+  </data>
+  <data name="STATUS_CONTENT_BROWSER_CLOSE" xml:space="preserve">
+    <value>浏览器关闭，请点击启动重新开启</value>
+  </data>
+  <data name="STATUS_CONTENT_CHECKING" xml:space="preserve">
+    <value>正在验证...</value>
+  </data>
+  <data name="STATUS_CONTENT_CHECK_AGENT" xml:space="preserve">
+    <value>请选择代理商</value>
+  </data>
+  <data name="STATUS_CONTENT_CHECK_FAILED" xml:space="preserve">
+    <value>验证失败，正在重试，请先登录交易系统</value>
+  </data>
+  <data name="STATUS_CONTENT_CHECK_MODE" xml:space="preserve">
+    <value>请选择模式</value>
+  </data>
+  <data name="STATUS_CONTENT_CHECK_SUCCESS" xml:space="preserve">
+    <value>验证成功，点击运行脚本</value>
+  </data>
+  <data name="STATUS_CONTENT_CLIENT" xml:space="preserve">
+    <value>启动客户端登录后验证执行脚本</value>
+  </data>
+  <data name="STATUS_CONTENT_EXECUTE_FAILED" xml:space="preserve">
+    <value>脚本执行失败</value>
+  </data>
+  <data name="STATUS_CONTENT_EXECUTE_STOP" xml:space="preserve">
+    <value>脚本执行停止</value>
+  </data>
+  <data name="STATUS_CONTENT_EXECUTE_SUCCESS" xml:space="preserve">
+    <value>脚本执行成功</value>
+  </data>
+  <data name="STATUS_CONTENT_EXECUTING" xml:space="preserve">
+    <value>正在执行脚本</value>
+  </data>
+  <data name="STATUS_CONTENT_FAILED" xml:space="preserve">
+    <value>启动失败</value>
+  </data>
+  <data name="STATUS_CONTENT_INPUT" xml:space="preserve">
+    <value>请输入完整的脚本信息，代码、价格、数量</value>
+  </data>
+  <data name="STATUS_TITLE" xml:space="preserve">
+    <value>状态：</value>
+  </data>
+  <data name="VALIDATE_BUTTON_TITLE" xml:space="preserve">
+    <value>验证</value>
+  </data>
 </root>
