@@ -7,6 +7,8 @@ namespace Haggling.Model
 
         public abstract bool execute(Script script);
 
+        public abstract void clean();
+
         public abstract void dispose();
     }
 }

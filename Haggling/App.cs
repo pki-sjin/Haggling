@@ -228,11 +228,14 @@ namespace Haggling
             this.code.Enabled = enabled;
             this.price.Enabled = enabled;
             this.count.Enabled = enabled;
+            this.times.Enabled = enabled;
+            this.interval.Enabled = enabled;
             this.executeScript.Enabled = enabled;
         }
 
         private void startScript()
         {
+            aa.clean();
             this.executeScript.Text = "停止";
             this.executeScript.Tag = "1";
             this.scriptTimer.Start();
@@ -243,6 +246,7 @@ namespace Haggling
             this.executeScript.Text = "执行";
             this.executeScript.Tag = "0";
             this.scriptTimer.Stop();
+            aa.clean();
         }
 
         private void executeScript_Click(object sender, EventArgs e)
@@ -266,7 +270,8 @@ namespace Haggling
                     script.code = this.code.Text;
                     script.price = this.price.Text;
                     script.count = this.count.Text;
-
+                    script.times = Decimal.ToInt32(this.times.Value);
+                    script.interval = this.interval.IntValue;
                     this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTING;
                     this.startScript();
                 }

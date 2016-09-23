@@ -23,10 +23,14 @@ namespace Haggling.Model
         {
         }
 
-
         public override bool execute(Script script)
         {
             return false;
+        }
+
+        public override void clean()
+        {
+            
         }
 
         public override void dispose()
