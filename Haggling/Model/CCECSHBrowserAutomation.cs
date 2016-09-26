@@ -1,5 +1,7 @@
 ﻿
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using System;
 using System.Threading;
@@ -9,9 +11,9 @@ namespace Haggling.Model
     class CCECSHBrowserAutomation : AbstractAutomation
     {
         private string Url = "https://www.ccecsh.com/exchange/";
-        private InternetExplorerDriverService driverService;
-        private InternetExplorerDriver driver;
-        private IWebElement serverTimeElement;
+        private ChromeDriverService driverService;
+        private ChromeDriver driver;
+        
 
         public CCECSHBrowserAutomation()
             : base()
@@ -23,14 +25,16 @@ namespace Haggling.Model
         {
             try
             {
-                if (serverTimeElement == null)
-                {
-                    serverTimeElement = driver.FindElement(By.XPath("//span[@class='servertime ng-binding']"));
+                string serverTime = null;
+                try{
+                    serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
+                }catch(Exception e){
+                    Console.Out.WriteLine(e);
                 }
-                var serverTime = serverTimeElement.Text.Split(' ')[1];
 
                 if (script.time.Equals(serverTime))
                 {
+                    driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 0));
                     // 执行时间匹配，开始执行
                     new Thread(new ThreadStart(() => {
                         for (int i = 0; i < script.times; i++)
@@ -66,19 +70,25 @@ namespace Haggling.Model
 
         public override void clean()
         {
-            serverTimeElement = null;
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
         }
 
         public override void dispose()
         {
             try
             {
+                driver.Close();
                 driver.Dispose();
+            }
+            catch (Exception)
+            {
+            }
+            try
+            {
                 driverService.Dispose();
             }
             catch (Exception)
             {
-
             }
         }
 
@@ -88,13 +98,14 @@ namespace Haggling.Model
             {
                 if (this.driverService == null)
                 {
-                    this.driverService = InternetExplorerDriverService.CreateDefaultService();
+                    this.driverService = ChromeDriverService.CreateDefaultService();
                     this.driverService.HideCommandPromptWindow = true;
                 }
 
                 if (this.driver == null)
                 {
-                    driver = new InternetExplorerDriver(this.driverService);
+                    driver = new ChromeDriver(this.driverService);
+                    driver.Manage().Window.Maximize();
                     driver.Url = this.Url;
                 }
                 driver.FindElement(By.ClassName("accountid"));

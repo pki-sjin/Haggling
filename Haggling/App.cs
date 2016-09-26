@@ -201,6 +201,7 @@ namespace Haggling
                                 this.enableScript(false);
                             });
                         }
+                        aa.validate();
                         this.BeginInvoke((MethodInvoker)delegate()
                         {
                             this.statusContent.Text = Resources.STATUS_CONTENT_CHECK_SUCCESS;
@@ -235,7 +236,7 @@ namespace Haggling
 
         private void startScript()
         {
-            aa.clean();
+            this.aa.clean();
             this.executeScript.Text = "停止";
             this.executeScript.Tag = "1";
             this.scriptTimer.Start();
@@ -246,7 +247,7 @@ namespace Haggling
             this.executeScript.Text = "执行";
             this.executeScript.Tag = "0";
             this.scriptTimer.Stop();
-            aa.clean();
+            this.sync.Stop();
         }
 
         private void executeScript_Click(object sender, EventArgs e)
@@ -328,6 +329,18 @@ namespace Haggling
                     this.launchButton.Enabled = true;
                 }
             }
+        }
+
+        protected override void DestroyHandle()
+        {
+            if (aa != null)
+            {
+                this.stopScript();
+                aa.dispose();
+            }
+
+            base.DestroyHandle();
+            Environment.Exit(0);
         }
     }
 }

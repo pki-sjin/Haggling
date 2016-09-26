@@ -30,7 +30,6 @@ namespace Haggling.Model
 
         public override void clean()
         {
-            
         }
 
         public override void dispose()

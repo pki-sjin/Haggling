@@ -41,21 +41,21 @@
             this.agentTitle = new System.Windows.Forms.Label();
             this.agent = new System.Windows.Forms.ComboBox();
             this.scriptState = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.times = new System.Windows.Forms.NumericUpDown();
             this.executeScript = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.count = new Haggling.Control.NumericTextBox();
-            this.price = new Haggling.Control.NumericTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.code = new Haggling.Control.NumericTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.time = new System.Windows.Forms.DateTimePicker();
             this.scriptTimer = new System.Windows.Forms.Timer(this.components);
             this.sync = new System.Windows.Forms.Timer(this.components);
-            this.times = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.interval = new Haggling.Control.NumericTextBox();
+            this.count = new Haggling.Control.NumericTextBox();
+            this.price = new Haggling.Control.NumericTextBox();
+            this.code = new Haggling.Control.NumericTextBox();
             this.launchState.SuspendLayout();
             this.scriptState.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.times)).BeginInit();
@@ -69,6 +69,7 @@
             this.button1.TabIndex = 99;
             this.button1.Text = "StartWeb";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.Start_Web_Click);
             // 
             // button2
@@ -79,6 +80,7 @@
             this.button2.TabIndex = 98;
             this.button2.Text = "StartUI";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.Start_UI_Click);
             // 
             // launchState
@@ -204,6 +206,37 @@
             this.scriptState.TabStop = false;
             this.scriptState.Text = "脚本参数";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(256, 87);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 17);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "间隔(毫秒)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(256, 59);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(36, 17);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "次数";
+            // 
+            // times
+            // 
+            this.times.Enabled = false;
+            this.times.Location = new System.Drawing.Point(336, 57);
+            this.times.Name = "times";
+            this.times.Size = new System.Drawing.Size(68, 22);
+            this.times.TabIndex = 9;
+            this.times.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            // 
             // executeScript
             // 
             this.executeScript.Enabled = false;
@@ -225,24 +258,6 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "买入数量：";
             // 
-            // count
-            // 
-            this.count.AllowSpace = false;
-            this.count.Enabled = false;
-            this.count.Location = new System.Drawing.Point(93, 112);
-            this.count.Name = "count";
-            this.count.Size = new System.Drawing.Size(121, 22);
-            this.count.TabIndex = 6;
-            // 
-            // price
-            // 
-            this.price.AllowSpace = false;
-            this.price.Enabled = false;
-            this.price.Location = new System.Drawing.Point(93, 84);
-            this.price.Name = "price";
-            this.price.Size = new System.Drawing.Size(121, 22);
-            this.price.TabIndex = 5;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -251,15 +266,6 @@
             this.label3.Size = new System.Drawing.Size(78, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "买入价格：";
-            // 
-            // code
-            // 
-            this.code.AllowSpace = false;
-            this.code.Enabled = false;
-            this.code.Location = new System.Drawing.Point(93, 56);
-            this.code.Name = "code";
-            this.code.Size = new System.Drawing.Size(121, 22);
-            this.code.TabIndex = 3;
             // 
             // label2
             // 
@@ -289,7 +295,7 @@
             this.time.ShowUpDown = true;
             this.time.Size = new System.Drawing.Size(121, 22);
             this.time.TabIndex = 0;
-            this.time.Value = new System.DateTime(2016, 9, 19, 9, 30, 0, 0);
+            this.time.Value = new System.DateTime(2016, 9, 19, 9, 29, 59, 0);
             // 
             // scriptTimer
             // 
@@ -301,37 +307,6 @@
             this.sync.Interval = 5000;
             this.sync.Tick += new System.EventHandler(this.sync_Tick);
             // 
-            // times
-            // 
-            this.times.Enabled = false;
-            this.times.Location = new System.Drawing.Point(336, 57);
-            this.times.Name = "times";
-            this.times.Size = new System.Drawing.Size(68, 22);
-            this.times.TabIndex = 9;
-            this.times.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(256, 59);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(36, 17);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "次数";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(256, 87);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(74, 17);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "间隔(毫秒)";
-            // 
             // interval
             // 
             this.interval.AllowSpace = false;
@@ -341,6 +316,33 @@
             this.interval.Size = new System.Drawing.Size(68, 22);
             this.interval.TabIndex = 12;
             this.interval.Text = "100";
+            // 
+            // count
+            // 
+            this.count.AllowSpace = false;
+            this.count.Enabled = false;
+            this.count.Location = new System.Drawing.Point(93, 112);
+            this.count.Name = "count";
+            this.count.Size = new System.Drawing.Size(121, 22);
+            this.count.TabIndex = 6;
+            // 
+            // price
+            // 
+            this.price.AllowSpace = false;
+            this.price.Enabled = false;
+            this.price.Location = new System.Drawing.Point(93, 84);
+            this.price.Name = "price";
+            this.price.Size = new System.Drawing.Size(121, 22);
+            this.price.TabIndex = 5;
+            // 
+            // code
+            // 
+            this.code.AllowSpace = false;
+            this.code.Enabled = false;
+            this.code.Location = new System.Drawing.Point(93, 56);
+            this.code.Name = "code";
+            this.code.Size = new System.Drawing.Size(121, 22);
+            this.code.TabIndex = 3;
             // 
             // App
             // 
