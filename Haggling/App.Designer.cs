@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.launchState = new System.Windows.Forms.GroupBox();
             this.statusContent = new System.Windows.Forms.Label();
             this.statusTitle = new System.Windows.Forms.Label();
@@ -61,28 +59,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.times)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(439, 338);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 30);
-            this.button1.TabIndex = 99;
-            this.button1.Text = "StartWeb";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.Start_Web_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(439, 302);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 30);
-            this.button2.TabIndex = 98;
-            this.button2.Text = "StartUI";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.Start_UI_Click);
-            // 
             // launchState
             // 
             this.launchState.Controls.Add(this.statusContent);
@@ -95,13 +71,14 @@
             this.launchState.Controls.Add(this.agent);
             this.launchState.Location = new System.Drawing.Point(12, 12);
             this.launchState.Name = "launchState";
-            this.launchState.Size = new System.Drawing.Size(502, 100);
+            this.launchState.Size = new System.Drawing.Size(502, 171);
             this.launchState.TabIndex = 0;
             this.launchState.TabStop = false;
             this.launchState.Text = "启动状态";
             // 
             // statusContent
             // 
+            this.statusContent.AutoEllipsis = true;
             this.statusContent.AutoSize = true;
             this.statusContent.Location = new System.Drawing.Point(62, 80);
             this.statusContent.Name = "statusContent";
@@ -199,7 +176,7 @@
             this.scriptState.Controls.Add(this.label2);
             this.scriptState.Controls.Add(this.label1);
             this.scriptState.Controls.Add(this.time);
-            this.scriptState.Location = new System.Drawing.Point(12, 118);
+            this.scriptState.Location = new System.Drawing.Point(12, 189);
             this.scriptState.Name = "scriptState";
             this.scriptState.Size = new System.Drawing.Size(502, 178);
             this.scriptState.TabIndex = 100;
@@ -351,8 +328,6 @@
             this.ClientSize = new System.Drawing.Size(526, 379);
             this.Controls.Add(this.scriptState);
             this.Controls.Add(this.launchState);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.MaximumSize = new System.Drawing.Size(544, 424);
             this.MinimumSize = new System.Drawing.Size(544, 424);
             this.Name = "App";
@@ -368,8 +343,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox launchState;
         private System.Windows.Forms.RadioButton clientMode;
         private System.Windows.Forms.RadioButton browserMode;

@@ -201,7 +201,6 @@ namespace Haggling
                                 this.enableScript(false);
                             });
                         }
-                        aa.validate();
                         this.BeginInvoke((MethodInvoker)delegate()
                         {
                             this.statusContent.Text = Resources.STATUS_CONTENT_CHECK_SUCCESS;
@@ -210,11 +209,11 @@ namespace Haggling
                             this.sync.Start();
                         });
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         this.BeginInvoke((MethodInvoker)delegate()
                         {
-                            this.statusContent.Text = Resources.STATUS_CONTENT_BROWSER_CLOSE;
+                            this.statusContent.Text = Resources.STATUS_CONTENT_BROWSER_CLOSE + "\r\n" + ex.Message;
                             this.enableScript(false);
                             this.launchButton.Enabled = true;
                         });
@@ -321,10 +320,10 @@ namespace Haggling
                 {
                     aa.validate();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // 异常终止
-                    this.statusContent.Text = Resources.STATUS_CONTENT_BROWSER_CLOSE;
+                    this.statusContent.Text = Resources.STATUS_CONTENT_BROWSER_CLOSE + "\r\n" + ex.Message;
                     this.enableScript(false);
                     this.launchButton.Enabled = true;
                 }

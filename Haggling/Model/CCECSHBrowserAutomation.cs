@@ -77,8 +77,7 @@ namespace Haggling.Model
         {
             try
             {
-                driver.Close();
-                driver.Dispose();
+                driver.Quit();
             }
             catch (Exception)
             {
