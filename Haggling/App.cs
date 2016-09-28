@@ -151,7 +151,6 @@ namespace Haggling
             this.executeScript.Text = "执行";
             this.executeScript.Tag = "0";
             this.scriptTimer.Stop();
-            this.sync.Stop();
         }
 
         private void executeScript_Click(object sender, EventArgs e)
@@ -240,6 +239,7 @@ namespace Haggling
             if (aa != null)
             {
                 this.stopScript();
+                this.sync.Stop();
                 aa.dispose();
             }
 
