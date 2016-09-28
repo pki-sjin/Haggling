@@ -28,12 +28,13 @@ namespace Haggling.Model
             try
             {
                 string serverTime = null;
-                int millisecond = 0;
+                //int millisecond = 0;
                 try{
-                    var ticks = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){done(resp);});");
-                    var time = orginalTime.AddMilliseconds(ticks);
-                    millisecond = time.Millisecond;
-                    serverTime = time.ToLongTimeString();
+                    //var ticks = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){done(resp);});");
+                    //var time = orginalTime.AddMilliseconds(ticks);
+                    //millisecond = time.Millisecond;
+                    //serverTime = time.ToLongTimeString();
+                    serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
                 }catch(Exception e){
                     Console.Out.WriteLine(e);
                 }
@@ -45,7 +46,8 @@ namespace Haggling.Model
                     // 执行时间匹配，开始执行
                     try
                     {
-                        driver.ExecuteAsyncScript(@"var millisecond=arguments[0];var times=arguments[1];var interval=arguments[2];var price=arguments[3];var quantity=arguments[4];var symbol=arguments[5];var threshold=interval<100?100:interval;var order=()=>{$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:'BUY',type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))}});};if(millisecond>1000-threshold){for(var i=0;i<times;i++){setTimeout(order,interval*i);}}else{var later=1000-millisecond-threshold;setTimeout(()=>{for(var i=0;i<times;i++){setTimeout(order,interval*i);}},later);}", millisecond, script.times, script.interval, script.price, script.count, script.code);
+                        driver.ExecuteAsyncScript(@"var times=arguments[0];var interval=arguments[1];var price=arguments[2];var quantity=arguments[3];var symbol=arguments[4];var failCount=0;var order=()=>{if(failCount>=times){return;}
+$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:'BUY',type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))},error:function(){failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;setTimeout(()=>{order();},later);});", script.times, script.interval, script.price, script.count, script.code);
                     }
                     catch (Exception)
                     {

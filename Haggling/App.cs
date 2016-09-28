@@ -230,6 +230,7 @@ namespace Haggling
                     this.statusContent.Text = Resources.STATUS_CONTENT_BROWSER_CLOSE + "\r\n" + ex.Message;
                     this.enableScript(false);
                     this.launchButton.Enabled = true;
+                    this.sync.Stop();
                 }
             }
         }

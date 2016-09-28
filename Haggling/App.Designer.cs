@@ -187,34 +187,34 @@
             // 
             this.interval.AllowSpace = false;
             this.interval.Enabled = false;
-            this.interval.Location = new System.Drawing.Point(336, 84);
+            this.interval.Location = new System.Drawing.Point(350, 84);
             this.interval.Name = "interval";
             this.interval.Size = new System.Drawing.Size(68, 22);
             this.interval.TabIndex = 12;
-            this.interval.Text = "100";
+            this.interval.Text = "200";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(256, 87);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(74, 17);
+            this.label6.Size = new System.Drawing.Size(88, 17);
             this.label6.TabIndex = 11;
-            this.label6.Text = "间隔(毫秒)";
+            this.label6.Text = "临界值(毫秒)";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(256, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(36, 17);
+            this.label5.Size = new System.Drawing.Size(64, 17);
             this.label5.TabIndex = 10;
-            this.label5.Text = "次数";
+            this.label5.Text = "重试次数";
             // 
             // times
             // 
             this.times.Enabled = false;
-            this.times.Location = new System.Drawing.Point(336, 57);
+            this.times.Location = new System.Drawing.Point(350, 57);
             this.times.Name = "times";
             this.times.Size = new System.Drawing.Size(68, 22);
             this.times.TabIndex = 9;
