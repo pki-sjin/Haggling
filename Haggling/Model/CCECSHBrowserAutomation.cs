@@ -5,6 +5,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 namespace Haggling.Model
@@ -15,7 +16,7 @@ namespace Haggling.Model
         private readonly DateTime orginalTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), TimeZoneInfo.Local);
         private ChromeDriverService driverService;
         private ChromeDriver driver;
-        
+
 
         public CCECSHBrowserAutomation()
             : base()
@@ -28,21 +29,19 @@ namespace Haggling.Model
             try
             {
                 string serverTime = null;
-                //int millisecond = 0;
-                try{
-                    //var ticks = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){done(resp);});");
-                    //var time = orginalTime.AddMilliseconds(ticks);
-                    //millisecond = time.Millisecond;
-                    //serverTime = time.ToLongTimeString();
+                try
+                {
                     serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
-                }catch(Exception e){
+                }
+                catch (Exception e)
+                {
                     Console.Out.WriteLine(e);
                 }
 
                 if (script.time.Equals(serverTime))
                 {
                     driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 0));
-                    
+
                     // 执行时间匹配，开始执行
                     try
                     {
@@ -113,6 +112,17 @@ $.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quan
             {
                 return false;
             }
+        }
+
+        public override long getResponseTime()
+        {
+            var begin = DateTime.Now.Ticks;
+            var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
+            request.Timeout = 5000;
+            var response = request.GetResponse();
+            var end = DateTime.Now.Ticks;
+            response.Close();
+            return end - begin;
         }
     }
 }

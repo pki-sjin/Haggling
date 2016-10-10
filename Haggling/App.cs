@@ -136,6 +136,7 @@ namespace Haggling
             this.times.Enabled = enabled;
             this.interval.Enabled = enabled;
             this.executeScript.Enabled = enabled;
+            this.responseRefreshButton.Enabled = enabled;
         }
 
         private void startScript()
@@ -246,6 +247,16 @@ namespace Haggling
 
             base.DestroyHandle();
             Environment.Exit(0);
+        }
+
+        private void responseRefreshButton_Click(object sender, EventArgs e)
+        {
+            if (aa != null)
+            {
+                var respTime = new DateTime(aa.getResponseTime());
+                var longTime = (respTime.Hour * 3600 + respTime.Minute * 60 + respTime.Second) * 1000 + respTime.Millisecond;
+                this.responseTime.Text = longTime + "ms";
+            }
         }
     }
 }

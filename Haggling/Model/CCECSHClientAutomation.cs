@@ -29,5 +29,10 @@ namespace Haggling.Model
         {
             return false;
         }
+
+        public override long getResponseTime()
+        {
+            return 0;
+        }
     }
 }

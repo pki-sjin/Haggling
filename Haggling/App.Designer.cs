@@ -39,21 +39,24 @@
             this.agentTitle = new System.Windows.Forms.Label();
             this.agent = new System.Windows.Forms.ComboBox();
             this.scriptState = new System.Windows.Forms.GroupBox();
-            this.interval = new Haggling.Control.NumericTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.times = new System.Windows.Forms.NumericUpDown();
             this.executeScript = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.count = new Haggling.Control.NumericTextBox();
-            this.price = new Haggling.Control.NumericTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.code = new Haggling.Control.NumericTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.time = new System.Windows.Forms.DateTimePicker();
             this.scriptTimer = new System.Windows.Forms.Timer(this.components);
             this.sync = new System.Windows.Forms.Timer(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.responseTime = new System.Windows.Forms.Label();
+            this.responseRefreshButton = new System.Windows.Forms.Button();
+            this.interval = new Haggling.Control.NumericTextBox();
+            this.count = new Haggling.Control.NumericTextBox();
+            this.price = new Haggling.Control.NumericTextBox();
+            this.code = new Haggling.Control.NumericTextBox();
             this.launchState.SuspendLayout();
             this.scriptState.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.times)).BeginInit();
@@ -163,6 +166,8 @@
             // 
             // scriptState
             // 
+            this.scriptState.Controls.Add(this.responseTime);
+            this.scriptState.Controls.Add(this.label7);
             this.scriptState.Controls.Add(this.interval);
             this.scriptState.Controls.Add(this.label6);
             this.scriptState.Controls.Add(this.label5);
@@ -183,40 +188,30 @@
             this.scriptState.TabStop = false;
             this.scriptState.Text = "脚本参数";
             // 
-            // interval
-            // 
-            this.interval.AllowSpace = false;
-            this.interval.Enabled = false;
-            this.interval.Location = new System.Drawing.Point(350, 84);
-            this.interval.Name = "interval";
-            this.interval.Size = new System.Drawing.Size(68, 22);
-            this.interval.TabIndex = 12;
-            this.interval.Text = "200";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(256, 87);
+            this.label6.Location = new System.Drawing.Point(276, 87);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(88, 17);
+            this.label6.Size = new System.Drawing.Size(102, 17);
             this.label6.TabIndex = 11;
-            this.label6.Text = "临界值(毫秒)";
+            this.label6.Text = "临界值(毫秒)：";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(256, 59);
+            this.label5.Location = new System.Drawing.Point(276, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 17);
+            this.label5.Size = new System.Drawing.Size(78, 17);
             this.label5.TabIndex = 10;
-            this.label5.Text = "重试次数";
+            this.label5.Text = "重试次数：";
             // 
             // times
             // 
             this.times.Enabled = false;
-            this.times.Location = new System.Drawing.Point(350, 57);
+            this.times.Location = new System.Drawing.Point(421, 57);
             this.times.Name = "times";
-            this.times.Size = new System.Drawing.Size(68, 22);
+            this.times.Size = new System.Drawing.Size(74, 22);
             this.times.TabIndex = 9;
             this.times.Value = new decimal(new int[] {
             5,
@@ -245,24 +240,6 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "买入数量：";
             // 
-            // count
-            // 
-            this.count.AllowSpace = false;
-            this.count.Enabled = false;
-            this.count.Location = new System.Drawing.Point(93, 112);
-            this.count.Name = "count";
-            this.count.Size = new System.Drawing.Size(121, 22);
-            this.count.TabIndex = 6;
-            // 
-            // price
-            // 
-            this.price.AllowSpace = false;
-            this.price.Enabled = false;
-            this.price.Location = new System.Drawing.Point(93, 84);
-            this.price.Name = "price";
-            this.price.Size = new System.Drawing.Size(121, 22);
-            this.price.TabIndex = 5;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -271,15 +248,6 @@
             this.label3.Size = new System.Drawing.Size(78, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "买入价格：";
-            // 
-            // code
-            // 
-            this.code.AllowSpace = false;
-            this.code.Enabled = false;
-            this.code.Location = new System.Drawing.Point(93, 56);
-            this.code.Name = "code";
-            this.code.Size = new System.Drawing.Size(121, 22);
-            this.code.TabIndex = 3;
             // 
             // label2
             // 
@@ -321,11 +289,77 @@
             this.sync.Interval = 5000;
             this.sync.Tick += new System.EventHandler(this.sync_Tick);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(276, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(78, 17);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "响应时间：";
+            // 
+            // responseTime
+            // 
+            this.responseTime.AutoSize = true;
+            this.responseTime.Location = new System.Drawing.Point(360, 28);
+            this.responseTime.Name = "responseTime";
+            this.responseTime.Size = new System.Drawing.Size(34, 17);
+            this.responseTime.TabIndex = 14;
+            this.responseTime.Text = "0ms";
+            // 
+            // responseRefreshButton
+            // 
+            this.responseRefreshButton.Location = new System.Drawing.Point(433, 209);
+            this.responseRefreshButton.Name = "responseRefreshButton";
+            this.responseRefreshButton.Size = new System.Drawing.Size(75, 30);
+            this.responseRefreshButton.TabIndex = 15;
+            this.responseRefreshButton.Text = "刷新";
+            this.responseRefreshButton.UseVisualStyleBackColor = true;
+            this.responseRefreshButton.Click += new System.EventHandler(this.responseRefreshButton_Click);
+            // 
+            // interval
+            // 
+            this.interval.AllowSpace = false;
+            this.interval.Enabled = false;
+            this.interval.Location = new System.Drawing.Point(421, 84);
+            this.interval.Name = "interval";
+            this.interval.Size = new System.Drawing.Size(74, 22);
+            this.interval.TabIndex = 12;
+            this.interval.Text = "200";
+            // 
+            // count
+            // 
+            this.count.AllowSpace = false;
+            this.count.Enabled = false;
+            this.count.Location = new System.Drawing.Point(93, 112);
+            this.count.Name = "count";
+            this.count.Size = new System.Drawing.Size(121, 22);
+            this.count.TabIndex = 6;
+            // 
+            // price
+            // 
+            this.price.AllowSpace = false;
+            this.price.Enabled = false;
+            this.price.Location = new System.Drawing.Point(93, 84);
+            this.price.Name = "price";
+            this.price.Size = new System.Drawing.Size(121, 22);
+            this.price.TabIndex = 5;
+            // 
+            // code
+            // 
+            this.code.AllowSpace = false;
+            this.code.Enabled = false;
+            this.code.Location = new System.Drawing.Point(93, 56);
+            this.code.Name = "code";
+            this.code.Size = new System.Drawing.Size(121, 22);
+            this.code.TabIndex = 3;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 379);
+            this.Controls.Add(this.responseRefreshButton);
             this.Controls.Add(this.scriptState);
             this.Controls.Add(this.launchState);
             this.MaximumSize = new System.Drawing.Size(544, 424);
@@ -368,6 +402,9 @@
         private System.Windows.Forms.NumericUpDown times;
         private Control.NumericTextBox interval;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button responseRefreshButton;
+        private System.Windows.Forms.Label responseTime;
+        private System.Windows.Forms.Label label7;
     }
 }
 

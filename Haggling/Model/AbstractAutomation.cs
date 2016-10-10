@@ -10,5 +10,7 @@ namespace Haggling.Model
         public abstract void clean();
 
         public abstract void dispose();
+
+        public abstract long getResponseTime();
     }
 }
