@@ -21,6 +21,11 @@ namespace Haggling
             var agents = new[] { new { Text = "上文众申", Value = AgentType.CCECSH } };
             this.agent.DataSource = agents;
             this.agent.SelectedIndex = -1;
+            var sides = new[] { new { Text = "买", Value = "BUY" }, new { Text = "卖", Value = "SELL" } };
+            var sideColumn = this.scriptData.Columns["side"] as DataGridViewComboBoxColumn;
+            sideColumn.DataSource = sides;
+            sideColumn.DisplayMember = "Text";
+            sideColumn.ValueMember = "Value";
         }
 
         private void validateLaunchState()
@@ -130,9 +135,7 @@ namespace Haggling
         private void enableScript(bool enabled)
         {
             this.time.Enabled = enabled;
-            this.code.Enabled = enabled;
-            this.price.Enabled = enabled;
-            this.count.Enabled = enabled;
+            this.scriptData.Enabled = enabled;
             this.times.Enabled = enabled;
             this.interval.Enabled = enabled;
             this.executeScript.Enabled = enabled;
@@ -163,18 +166,36 @@ namespace Haggling
                 {
                     // 执行
                     if (string.IsNullOrWhiteSpace(this.time.Text)
-                    || string.IsNullOrWhiteSpace(this.code.Text)
-                    || string.IsNullOrWhiteSpace(this.price.Text)
-                    || string.IsNullOrWhiteSpace(this.count.Text))
+                    || this.scriptData.Rows.Count == 0)
                     {
                         this.statusContent.Text = Resources.STATUS_CONTENT_INPUT;
                         return;
                     }
 
                     script.time = this.time.Text;
-                    script.code = this.code.Text;
-                    script.price = this.price.Text;
-                    script.count = this.count.Text;
+                    script.jobs.Clear();
+                    for (int i = 0, length = this.scriptData.Rows.Count - 1; i < length; i++)
+                    {
+                        var row = this.scriptData.Rows[i];
+                        var code = row.Cells["code"].Value as string;
+                        var price = row.Cells["price"].Value as string;
+                        var count = row.Cells["count"].Value as string;
+                        var side = row.Cells["side"].Value as string;
+                        if (string.IsNullOrWhiteSpace(code)
+                            || string.IsNullOrWhiteSpace(price)
+                            || string.IsNullOrWhiteSpace(count)
+                            || string.IsNullOrWhiteSpace(side))
+                        {
+                            this.statusContent.Text = Resources.STATUS_CONTENT_INPUT;
+                            return;
+                        }
+                        var job = new Job();
+                        job.code = code;
+                        job.price = price;
+                        job.count = count;
+                        job.side = side;
+                        this.script.jobs.Add(job);
+                    }
                     script.times = Decimal.ToInt32(this.times.Value);
                     script.interval = this.interval.IntValue;
                     this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTING;

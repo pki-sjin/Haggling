@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.launchState = new System.Windows.Forms.GroupBox();
             this.statusContent = new System.Windows.Forms.Label();
             this.statusTitle = new System.Windows.Forms.Label();
@@ -39,26 +42,26 @@
             this.agentTitle = new System.Windows.Forms.Label();
             this.agent = new System.Windows.Forms.ComboBox();
             this.scriptState = new System.Windows.Forms.GroupBox();
+            this.scriptData = new System.Windows.Forms.DataGridView();
+            this.responseRefreshButton = new System.Windows.Forms.Button();
+            this.responseTime = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.times = new System.Windows.Forms.NumericUpDown();
             this.executeScript = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.time = new System.Windows.Forms.DateTimePicker();
             this.scriptTimer = new System.Windows.Forms.Timer(this.components);
             this.sync = new System.Windows.Forms.Timer(this.components);
-            this.label7 = new System.Windows.Forms.Label();
-            this.responseTime = new System.Windows.Forms.Label();
-            this.responseRefreshButton = new System.Windows.Forms.Button();
+            this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.side = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.interval = new Haggling.Control.NumericTextBox();
-            this.count = new Haggling.Control.NumericTextBox();
-            this.price = new Haggling.Control.NumericTextBox();
-            this.code = new Haggling.Control.NumericTextBox();
             this.launchState.SuspendLayout();
             this.scriptState.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scriptData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.times)).BeginInit();
             this.SuspendLayout();
             // 
@@ -166,6 +169,8 @@
             // 
             // scriptState
             // 
+            this.scriptState.Controls.Add(this.scriptData);
+            this.scriptState.Controls.Add(this.responseRefreshButton);
             this.scriptState.Controls.Add(this.responseTime);
             this.scriptState.Controls.Add(this.label7);
             this.scriptState.Controls.Add(this.interval);
@@ -173,25 +178,63 @@
             this.scriptState.Controls.Add(this.label5);
             this.scriptState.Controls.Add(this.times);
             this.scriptState.Controls.Add(this.executeScript);
-            this.scriptState.Controls.Add(this.label4);
-            this.scriptState.Controls.Add(this.count);
-            this.scriptState.Controls.Add(this.price);
-            this.scriptState.Controls.Add(this.label3);
-            this.scriptState.Controls.Add(this.code);
-            this.scriptState.Controls.Add(this.label2);
             this.scriptState.Controls.Add(this.label1);
             this.scriptState.Controls.Add(this.time);
             this.scriptState.Location = new System.Drawing.Point(12, 189);
             this.scriptState.Name = "scriptState";
-            this.scriptState.Size = new System.Drawing.Size(502, 178);
+            this.scriptState.Size = new System.Drawing.Size(502, 298);
             this.scriptState.TabIndex = 100;
             this.scriptState.TabStop = false;
             this.scriptState.Text = "脚本参数";
             // 
+            // scriptData
+            // 
+            this.scriptData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.scriptData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.code,
+            this.price,
+            this.count,
+            this.side});
+            this.scriptData.Enabled = false;
+            this.scriptData.Location = new System.Drawing.Point(9, 55);
+            this.scriptData.Name = "scriptData";
+            this.scriptData.RowTemplate.Height = 24;
+            this.scriptData.Size = new System.Drawing.Size(487, 146);
+            this.scriptData.TabIndex = 16;
+            // 
+            // responseRefreshButton
+            // 
+            this.responseRefreshButton.Enabled = false;
+            this.responseRefreshButton.Location = new System.Drawing.Point(150, 207);
+            this.responseRefreshButton.Name = "responseRefreshButton";
+            this.responseRefreshButton.Size = new System.Drawing.Size(75, 30);
+            this.responseRefreshButton.TabIndex = 15;
+            this.responseRefreshButton.Text = "刷新";
+            this.responseRefreshButton.UseVisualStyleBackColor = true;
+            this.responseRefreshButton.Click += new System.EventHandler(this.responseRefreshButton_Click);
+            // 
+            // responseTime
+            // 
+            this.responseTime.AutoSize = true;
+            this.responseTime.Location = new System.Drawing.Point(90, 214);
+            this.responseTime.Name = "responseTime";
+            this.responseTime.Size = new System.Drawing.Size(34, 17);
+            this.responseTime.TabIndex = 14;
+            this.responseTime.Text = "0ms";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 214);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(78, 17);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "响应时间：";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(276, 87);
+            this.label6.Location = new System.Drawing.Point(6, 273);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(102, 17);
             this.label6.TabIndex = 11;
@@ -200,7 +243,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(276, 59);
+            this.label5.Location = new System.Drawing.Point(6, 245);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(78, 17);
             this.label5.TabIndex = 10;
@@ -209,7 +252,7 @@
             // times
             // 
             this.times.Enabled = false;
-            this.times.Location = new System.Drawing.Point(421, 57);
+            this.times.Location = new System.Drawing.Point(151, 243);
             this.times.Name = "times";
             this.times.Size = new System.Drawing.Size(74, 22);
             this.times.TabIndex = 9;
@@ -222,7 +265,7 @@
             // executeScript
             // 
             this.executeScript.Enabled = false;
-            this.executeScript.Location = new System.Drawing.Point(421, 142);
+            this.executeScript.Location = new System.Drawing.Point(421, 260);
             this.executeScript.Name = "executeScript";
             this.executeScript.Size = new System.Drawing.Size(75, 30);
             this.executeScript.TabIndex = 8;
@@ -231,37 +274,10 @@
             this.executeScript.UseVisualStyleBackColor = true;
             this.executeScript.Click += new System.EventHandler(this.executeScript_Click);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 115);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 17);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "买入数量：";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 87);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 17);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "买入价格：";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 17);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "商品代码：";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 28);
+            this.label1.Location = new System.Drawing.Point(6, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 17);
             this.label1.TabIndex = 1;
@@ -272,7 +288,7 @@
             this.time.CustomFormat = "HH:mm:ss";
             this.time.Enabled = false;
             this.time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.time.Location = new System.Drawing.Point(93, 28);
+            this.time.Location = new System.Drawing.Point(93, 27);
             this.time.Name = "time";
             this.time.ShowUpDown = true;
             this.time.Size = new System.Drawing.Size(121, 22);
@@ -289,87 +305,59 @@
             this.sync.Interval = 5000;
             this.sync.Tick += new System.EventHandler(this.sync_Tick);
             // 
-            // label7
+            // code
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(276, 28);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 17);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "响应时间：";
+            dataGridViewCellStyle1.NullValue = null;
+            this.code.DefaultCellStyle = dataGridViewCellStyle1;
+            this.code.HeaderText = "商品代码";
+            this.code.MaxInputLength = 7;
+            this.code.Name = "code";
             // 
-            // responseTime
+            // price
             // 
-            this.responseTime.AutoSize = true;
-            this.responseTime.Location = new System.Drawing.Point(360, 28);
-            this.responseTime.Name = "responseTime";
-            this.responseTime.Size = new System.Drawing.Size(34, 17);
-            this.responseTime.TabIndex = 14;
-            this.responseTime.Text = "0ms";
+            dataGridViewCellStyle2.NullValue = null;
+            this.price.DefaultCellStyle = dataGridViewCellStyle2;
+            this.price.HeaderText = "价格";
+            this.price.Name = "price";
             // 
-            // responseRefreshButton
+            // count
             // 
-            this.responseRefreshButton.Location = new System.Drawing.Point(433, 209);
-            this.responseRefreshButton.Name = "responseRefreshButton";
-            this.responseRefreshButton.Size = new System.Drawing.Size(75, 30);
-            this.responseRefreshButton.TabIndex = 15;
-            this.responseRefreshButton.Text = "刷新";
-            this.responseRefreshButton.UseVisualStyleBackColor = true;
-            this.responseRefreshButton.Click += new System.EventHandler(this.responseRefreshButton_Click);
+            dataGridViewCellStyle3.NullValue = null;
+            this.count.DefaultCellStyle = dataGridViewCellStyle3;
+            this.count.HeaderText = "数量";
+            this.count.Name = "count";
+            // 
+            // side
+            // 
+            this.side.HeaderText = "交易";
+            this.side.Name = "side";
             // 
             // interval
             // 
             this.interval.AllowSpace = false;
             this.interval.Enabled = false;
-            this.interval.Location = new System.Drawing.Point(421, 84);
+            this.interval.Location = new System.Drawing.Point(151, 270);
             this.interval.Name = "interval";
             this.interval.Size = new System.Drawing.Size(74, 22);
             this.interval.TabIndex = 12;
             this.interval.Text = "200";
             // 
-            // count
-            // 
-            this.count.AllowSpace = false;
-            this.count.Enabled = false;
-            this.count.Location = new System.Drawing.Point(93, 112);
-            this.count.Name = "count";
-            this.count.Size = new System.Drawing.Size(121, 22);
-            this.count.TabIndex = 6;
-            // 
-            // price
-            // 
-            this.price.AllowSpace = false;
-            this.price.Enabled = false;
-            this.price.Location = new System.Drawing.Point(93, 84);
-            this.price.Name = "price";
-            this.price.Size = new System.Drawing.Size(121, 22);
-            this.price.TabIndex = 5;
-            // 
-            // code
-            // 
-            this.code.AllowSpace = false;
-            this.code.Enabled = false;
-            this.code.Location = new System.Drawing.Point(93, 56);
-            this.code.Name = "code";
-            this.code.Size = new System.Drawing.Size(121, 22);
-            this.code.TabIndex = 3;
-            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 379);
-            this.Controls.Add(this.responseRefreshButton);
+            this.ClientSize = new System.Drawing.Size(526, 499);
             this.Controls.Add(this.scriptState);
             this.Controls.Add(this.launchState);
-            this.MaximumSize = new System.Drawing.Size(544, 424);
-            this.MinimumSize = new System.Drawing.Size(544, 424);
+            this.MaximumSize = new System.Drawing.Size(544, 544);
+            this.MinimumSize = new System.Drawing.Size(544, 544);
             this.Name = "App";
             this.Text = "Haggling";
             this.launchState.ResumeLayout(false);
             this.launchState.PerformLayout();
             this.scriptState.ResumeLayout(false);
             this.scriptState.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scriptData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.times)).EndInit();
             this.ResumeLayout(false);
 
@@ -388,13 +376,7 @@
         private System.Windows.Forms.ComboBox agent;
         private System.Windows.Forms.GroupBox scriptState;
         private System.Windows.Forms.DateTimePicker time;
-        private Haggling.Control.NumericTextBox price;
-        private System.Windows.Forms.Label label3;
-        private Haggling.Control.NumericTextBox code;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label4;
-        private Haggling.Control.NumericTextBox count;
         private System.Windows.Forms.Button executeScript;
         private System.Windows.Forms.Timer scriptTimer;
         private System.Windows.Forms.Timer sync;
@@ -405,6 +387,11 @@
         private System.Windows.Forms.Button responseRefreshButton;
         private System.Windows.Forms.Label responseTime;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridView scriptData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn count;
+        private System.Windows.Forms.DataGridViewComboBoxColumn side;
     }
 }
 

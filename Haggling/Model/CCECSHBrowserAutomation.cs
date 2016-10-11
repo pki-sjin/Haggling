@@ -42,15 +42,19 @@ namespace Haggling.Model
                 {
                     driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 0));
 
-                    // 执行时间匹配，开始执行
-                    try
+                    foreach(var job in script.jobs)
                     {
-                        driver.ExecuteAsyncScript(@"var times=arguments[0];var interval=arguments[1];var price=arguments[2];var quantity=arguments[3];var symbol=arguments[4];var failCount=0;var order=()=>{if(failCount>=times){return;}
-$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:'BUY',type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))},error:function(){failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;setTimeout(()=>{order();},later);});", script.times, script.interval, script.price, script.count, script.code);
+                        // 执行时间匹配，开始执行
+                        try
+                        {
+                            driver.ExecuteAsyncScript(@"var times=arguments[0];var interval=arguments[1];var price=arguments[2];var quantity=arguments[3];var symbol=arguments[4];var side=arguments[5];var failCount=0;var order=()=>{if(failCount>=times){return;}
+$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:side,type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))},error:function(){failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;setTimeout(()=>{order();},later);});", script.times, script.interval, job.price, job.count, job.code, job.side);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
-                    catch (Exception)
-                    {
-                    }
+
                     return true;
                 }
                 else
