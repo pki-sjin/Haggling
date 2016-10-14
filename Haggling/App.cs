@@ -115,6 +115,8 @@ namespace Haggling
                         {
                             this.statusContent.Text = Resources.STATUS_CONTENT_CHECK_SUCCESS;
                             this.enableScript(true);
+                            var a = aa as CCECSHBrowserAutomation;
+                            a.getHeader();
                             // 验证成功后，运行守护线程保证浏览器正常运行
                             this.sync.Start();
                         });

@@ -1,22 +1,22 @@
 ﻿
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
 using System;
-using System.Diagnostics;
+using System.IO;
 using System.Net;
-using System.Threading;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 namespace Haggling.Model
 {
     class CCECSHBrowserAutomation : AbstractAutomation
     {
         private string Url = "https://www.ccecsh.com/exchange/";
-        private readonly DateTime orginalTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), TimeZoneInfo.Local);
         private ChromeDriverService driverService;
         private ChromeDriver driver;
 
+        private string cookieString;
+        private string CSRFToken;
 
         public CCECSHBrowserAutomation()
             : base()
@@ -40,33 +40,17 @@ namespace Haggling.Model
 
                 if (script.time.Equals(serverTime))
                 {
-                    driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 0));
-
-                    var prices = new string[script.jobs.Count];
-                    var quantities = new string[script.jobs.Count];
-                    var symbols = new string[script.jobs.Count];
-                    var sides = new string[script.jobs.Count];
-
-                    for (int i = 0; i < script.jobs.Count; i++)
+                    foreach (var job in script.jobs)
                     {
-                        var job = script.jobs[i];
-                        prices[i] = job.price;
-                        quantities[i] = job.count;
-                        symbols[i] = job.code;
-                        sides[i] = job.side;
+
+                        Task task = new Task(() => {
+                            var jobTask = new JobTask(job, this.cookieString, this.CSRFToken, script.times, script.interval);
+                            jobTask.run();
+                        });
+                        
+                        task.Start();
                     }
 
-                    // 执行时间匹配，开始执行
-                    try
-                    {
-                        driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var times=arguments[0];var interval=arguments[1];var count=arguments[2];var prices=arguments[3];var quantities=arguments[4];var symbols=arguments[5];var sides=arguments[6];for(var i=0;i<count;i++){var request=()=>{var price=prices[i];var quantity=quantities[i];var symbol=symbols[i];var side=sides[i];var failCount=0;var order=()=>{if(failCount>=times){return;}
-$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:side,type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))},error:function(){failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;setTimeout(()=>{order();},later);});}
-request();}
-done(0);", script.times, script.interval, script.jobs.Count, prices, quantities, symbols, sides);
-                    }
-                    catch (Exception)
-                    {
-                    }
                     return true;
                 }
                 else
@@ -132,13 +116,33 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
 
         public override long getResponseTime()
         {
-            var begin = DateTime.Now.Ticks;
-            var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
-            request.Timeout = 5000;
-            var response = request.GetResponse();
-            var end = DateTime.Now.Ticks;
-            response.Close();
-            return end - begin;
+            try
+            {
+                var begin = DateTime.Now.Ticks;
+                var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
+                request.Timeout = 5000;
+                var response = request.GetResponse();
+                var end = DateTime.Now.Ticks;
+                response.Close();
+                return end - begin;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public void getHeader()
+        {
+            this.cookieString = "";
+            foreach (var cookie in driver.Manage().Cookies.AllCookies)
+            {
+                this.cookieString += cookie.Name + "=" + cookie.Value + ";";
+                if (cookie.Name == "CSRFToken")
+                {
+                    this.CSRFToken = cookie.Value;
+                }
+            }
         }
     }
 }
