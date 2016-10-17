@@ -198,6 +198,7 @@
             this.textScript.TabIndex = 17;
             this.textScript.Text = "测试";
             this.textScript.UseVisualStyleBackColor = true;
+            this.textScript.Visible = false;
             this.textScript.Click += new System.EventHandler(this.textScript_Click);
             // 
             // scriptData

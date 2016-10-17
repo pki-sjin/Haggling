@@ -31,38 +31,18 @@ namespace Haggling.Model
         private readonly string cookie;
         private readonly string token;
         private readonly int times;
-        private readonly int interval;
         private int failCount = 0;
-        public JobTask(Job job, string cookie, string token, int times, int interval)
+        private byte[] postData = null;
+        public JobTask(Job job, string cookie, string token, int times)
         {
             this.job = job;
             this.cookie = cookie;
             this.token = token;
             this.times = times;
-            this.interval = interval;
         }
 
         public void run()
         {
-            try
-            {
-                var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
-                var response = request.GetResponse();
-                var streamReader = new StreamReader(response.GetResponseStream());
-                var responseContent = streamReader.ReadToEnd();
-                response.Close();
-                var millisecond = orginalTime.AddMilliseconds(long.Parse(responseContent)).Millisecond;
-                var later = 1000 - interval - millisecond;
-                if (later < 0)
-                {
-                    later = 0;
-                }
-                Thread.Sleep(later);
-            }
-            catch (Exception)
-            {
-            }
-
             execute();
         }
 
@@ -73,22 +53,38 @@ namespace Haggling.Model
                 return;
             }
 
+            var request = WebRequest.Create("https://www.ccecsh.com/exchange/private/order");
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+            request.Headers.Add("CSRFToken", MD5Encrypt(this.token));
+            request.Headers.Add("Cookie", this.cookie);
+            postData = Encoding.UTF8.GetBytes("price=" + job.price + "&quantity=" + job.count + "&symbol=" + job.code + "&side=" + job.side + "&type=LIMIT");
+            request.ContentLength = postData.Length;
+            request.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), request);
+        }
+
+        private void GetRequestStreamCallback(IAsyncResult result)
+        {
+            WebRequest request = (WebRequest)result.AsyncState;
+            using (Stream stream = request.EndGetRequestStream(result))
+            {
+                stream.Write(postData, 0, postData.Length);
+                stream.Close();
+            }
+
+            request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
+        }
+
+        private void GetResponseCallback(IAsyncResult result)
+        {
             try
             {
-                var request = WebRequest.Create("https://www.ccecsh.com/exchange/private/order");
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                request.Headers.Add("CSRFToken", MD5Encrypt(this.token));
-                request.Headers.Add("Cookie", this.cookie);
-                byte[] data = Encoding.UTF8.GetBytes("price=" + job.price + "&quantity=" + job.count + "&symbol=" + job.code + "&side=" + job.side + "&type=LIMIT");
-                request.ContentLength = data.Length;
-                var writer = request.GetRequestStream();
-                writer.Write(data, 0, data.Length);
-                writer.Close();
-                var response = request.GetResponse();
-                var streamReader = new StreamReader(response.GetResponseStream());
-                var responseContent = streamReader.ReadToEnd();
-                response.Close();
+                WebRequest request = (WebRequest)result.AsyncState;
+                using (HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(result))
+                {
+                    Console.WriteLine(response.StatusDescription);
+                    response.Close();
+                }
             }
             catch (Exception)
             {
