@@ -2,10 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.IO;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 namespace Haggling.Model
 {
@@ -43,11 +40,12 @@ namespace Haggling.Model
                     foreach (var job in script.jobs)
                     {
 
-                        Task task = new Task(() => {
+                        Task task = new Task(() =>
+                        {
                             var jobTask = new JobTask(job, this.cookieString, this.CSRFToken, script.times, script.interval);
                             jobTask.run();
                         });
-                        
+
                         task.Start();
                     }
 
@@ -142,6 +140,16 @@ namespace Haggling.Model
                 {
                     this.CSRFToken = cookie.Value;
                 }
+            }
+        }
+
+        public void testScript(Script script)
+        {
+            foreach (var job in script.jobs)
+            {
+
+                var jobTask = new JobTask(job, this.cookieString, this.CSRFToken, 1, 0);
+                jobTask.run();
             }
         }
     }

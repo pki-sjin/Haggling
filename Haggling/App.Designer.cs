@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.launchState = new System.Windows.Forms.GroupBox();
             this.statusContent = new System.Windows.Forms.Label();
             this.statusTitle = new System.Windows.Forms.Label();
@@ -42,6 +42,7 @@
             this.agentTitle = new System.Windows.Forms.Label();
             this.agent = new System.Windows.Forms.ComboBox();
             this.scriptState = new System.Windows.Forms.GroupBox();
+            this.textScript = new System.Windows.Forms.Button();
             this.scriptData = new System.Windows.Forms.DataGridView();
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,6 +51,7 @@
             this.responseRefreshButton = new System.Windows.Forms.Button();
             this.responseTime = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.interval = new Haggling.Control.NumericTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.times = new System.Windows.Forms.NumericUpDown();
@@ -58,7 +60,6 @@
             this.time = new System.Windows.Forms.DateTimePicker();
             this.scriptTimer = new System.Windows.Forms.Timer(this.components);
             this.sync = new System.Windows.Forms.Timer(this.components);
-            this.interval = new Haggling.Control.NumericTextBox();
             this.launchState.SuspendLayout();
             this.scriptState.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scriptData)).BeginInit();
@@ -169,6 +170,7 @@
             // 
             // scriptState
             // 
+            this.scriptState.Controls.Add(this.textScript);
             this.scriptState.Controls.Add(this.scriptData);
             this.scriptState.Controls.Add(this.responseRefreshButton);
             this.scriptState.Controls.Add(this.responseTime);
@@ -187,6 +189,17 @@
             this.scriptState.TabStop = false;
             this.scriptState.Text = "脚本参数";
             // 
+            // textScript
+            // 
+            this.textScript.Enabled = false;
+            this.textScript.Location = new System.Drawing.Point(677, 260);
+            this.textScript.Name = "textScript";
+            this.textScript.Size = new System.Drawing.Size(75, 30);
+            this.textScript.TabIndex = 17;
+            this.textScript.Text = "测试";
+            this.textScript.UseVisualStyleBackColor = true;
+            this.textScript.Click += new System.EventHandler(this.textScript_Click);
+            // 
             // scriptData
             // 
             this.scriptData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -204,23 +217,23 @@
             // 
             // code
             // 
-            dataGridViewCellStyle4.NullValue = null;
-            this.code.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.NullValue = null;
+            this.code.DefaultCellStyle = dataGridViewCellStyle1;
             this.code.HeaderText = "商品代码";
             this.code.MaxInputLength = 7;
             this.code.Name = "code";
             // 
             // price
             // 
-            dataGridViewCellStyle5.NullValue = null;
-            this.price.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.NullValue = null;
+            this.price.DefaultCellStyle = dataGridViewCellStyle2;
             this.price.HeaderText = "价格";
             this.price.Name = "price";
             // 
             // count
             // 
-            dataGridViewCellStyle6.NullValue = null;
-            this.count.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.NullValue = null;
+            this.count.DefaultCellStyle = dataGridViewCellStyle3;
             this.count.HeaderText = "数量";
             this.count.Name = "count";
             // 
@@ -257,6 +270,16 @@
             this.label7.Size = new System.Drawing.Size(78, 17);
             this.label7.TabIndex = 13;
             this.label7.Text = "响应时间：";
+            // 
+            // interval
+            // 
+            this.interval.AllowSpace = false;
+            this.interval.Enabled = false;
+            this.interval.Location = new System.Drawing.Point(151, 323);
+            this.interval.Name = "interval";
+            this.interval.Size = new System.Drawing.Size(74, 22);
+            this.interval.TabIndex = 12;
+            this.interval.Text = "200";
             // 
             // label6
             // 
@@ -332,16 +355,6 @@
             this.sync.Interval = 5000;
             this.sync.Tick += new System.EventHandler(this.sync_Tick);
             // 
-            // interval
-            // 
-            this.interval.AllowSpace = false;
-            this.interval.Enabled = false;
-            this.interval.Location = new System.Drawing.Point(151, 323);
-            this.interval.Name = "interval";
-            this.interval.Size = new System.Drawing.Size(74, 22);
-            this.interval.TabIndex = 12;
-            this.interval.Text = "200";
-            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -392,6 +405,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn price;
         private System.Windows.Forms.DataGridViewTextBoxColumn count;
         private System.Windows.Forms.DataGridViewComboBoxColumn side;
+        private System.Windows.Forms.Button textScript;
     }
 }
 

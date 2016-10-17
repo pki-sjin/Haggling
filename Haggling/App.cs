@@ -142,6 +142,7 @@ namespace Haggling
             this.interval.Enabled = enabled;
             this.executeScript.Enabled = enabled;
             this.responseRefreshButton.Enabled = enabled;
+            this.textScript.Enabled = enabled;
         }
 
         private void startScript()
@@ -280,6 +281,42 @@ namespace Haggling
                 var longTime = (respTime.Hour * 3600 + respTime.Minute * 60 + respTime.Second) * 1000 + respTime.Millisecond;
                 this.responseTime.Text = longTime + "ms";
             }
+        }
+
+        private void textScript_Click(object sender, EventArgs e)
+        {
+            if (this.scriptData.Rows.Count == 0)
+            {
+                this.statusContent.Text = Resources.STATUS_CONTENT_INPUT;
+                return;
+            }
+
+            script.jobs.Clear();
+            for (int i = 0, length = this.scriptData.Rows.Count - 1; i < length; i++)
+            {
+                var row = this.scriptData.Rows[i];
+                var code = row.Cells["code"].Value as string;
+                var price = row.Cells["price"].Value as string;
+                var count = row.Cells["count"].Value as string;
+                var side = row.Cells["side"].Value as string;
+                if (string.IsNullOrWhiteSpace(code)
+                    || string.IsNullOrWhiteSpace(price)
+                    || string.IsNullOrWhiteSpace(count)
+                    || string.IsNullOrWhiteSpace(side))
+                {
+                    this.statusContent.Text = Resources.STATUS_CONTENT_INPUT;
+                    return;
+                }
+                var job = new Job();
+                job.code = code;
+                job.price = price;
+                job.count = count;
+                job.side = side;
+                this.script.jobs.Add(job);
+            }
+
+            var a = aa as CCECSHBrowserAutomation;
+            a.testScript(script);
         }
     }
 }

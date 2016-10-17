@@ -16,7 +16,8 @@ namespace Haggling.Model
         public int interval { get; set; }
     }
 
-    public class Job {
+    public class Job
+    {
         public string code { get; set; }
         public string price { get; set; }
         public string count { get; set; }
@@ -52,6 +53,10 @@ namespace Haggling.Model
                 response.Close();
                 var millisecond = orginalTime.AddMilliseconds(long.Parse(responseContent)).Millisecond;
                 var later = 1000 - interval - millisecond;
+                if (later < 0)
+                {
+                    later = 0;
+                }
                 Thread.Sleep(later);
             }
             catch (Exception)
@@ -105,6 +110,6 @@ namespace Haggling.Model
                 sTemp += bytHash[i].ToString("X").PadLeft(2, '0');
             }
             return sTemp.ToLower();
-        } 
+        }
     }
 }
