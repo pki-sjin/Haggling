@@ -30,18 +30,28 @@ namespace Haggling.Model
         {
             try
             {
+                //string serverTime = null;
+                //var millisecond = 0;
+                //try
+                //{
+                //    var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
+                //    var response = request.GetResponse();
+                //    var streamReader = new StreamReader(response.GetResponseStream());
+                //    var responseContent = streamReader.ReadToEnd();
+                //    response.Close();
+                //    var currentTime = orginalTime.AddMilliseconds(long.Parse(responseContent));
+                //    millisecond = currentTime.Millisecond;
+                //    serverTime = currentTime.ToLongTimeString();
+                //}
+                //catch (Exception e)
+                //{
+                //    Console.Out.WriteLine(e);
+                //}
+
                 string serverTime = null;
-                var millisecond = 0;
                 try
                 {
-                    var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
-                    var response = request.GetResponse();
-                    var streamReader = new StreamReader(response.GetResponseStream());
-                    var responseContent = streamReader.ReadToEnd();
-                    response.Close();
-                    var currentTime = orginalTime.AddMilliseconds(long.Parse(responseContent));
-                    millisecond = currentTime.Millisecond;
-                    serverTime = currentTime.ToLongTimeString();
+                    serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
                 }
                 catch (Exception e)
                 {
@@ -50,6 +60,8 @@ namespace Haggling.Model
 
                 if (script.time.Equals(serverTime))
                 {
+                    driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 0));
+
                     var prices = new string[script.jobs.Count];
                     var quantities = new string[script.jobs.Count];
                     var symbols = new string[script.jobs.Count];
@@ -68,7 +80,8 @@ namespace Haggling.Model
                     try
                     {
                         driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var times=arguments[0];var interval=arguments[1];var count=arguments[2];var prices=arguments[3];var quantities=arguments[4];var symbols=arguments[5];var sides=arguments[6];for(var i=0;i<count;i++){var request=()=>{var price=prices[i];var quantity=quantities[i];var symbol=symbols[i];var side=sides[i];var failCount=0;var order=()=>{if(failCount>=times){return;}
-$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:side,type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))},error:function(){failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;setTimeout(()=>{order();},later);});}
+$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:side,type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))},error:function(){failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;if(later<0){later=0;}
+setTimeout(()=>{order();},later);});}
 request();}
 done(0);", script.times, script.interval, script.jobs.Count, prices, quantities, symbols, sides);
                     }
@@ -112,6 +125,7 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
 
         public override void clean()
         {
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
         }
 
         public override void dispose()
