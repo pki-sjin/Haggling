@@ -2,11 +2,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.IO;
-using System.Net;
-using System.Net.Cache;
-using System.Threading;
-using System.Threading.Tasks;
 namespace Haggling.Model
 {
     class CCECSHBrowserAutomation : AbstractAutomation
@@ -175,13 +170,18 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
         {
             try
             {
-                var begin = DateTime.Now.Ticks;
-                var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
-                request.Timeout = 5000;
-                var response = request.GetResponse();
-                var end = DateTime.Now.Ticks;
-                response.Close();
-                return end - begin;
+                driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
+                long time = 0;
+                try
+                {
+                    time = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+
+                return time;
             }
             catch (Exception)
             {

@@ -277,9 +277,7 @@ namespace Haggling
         {
             if (aa != null)
             {
-                var respTime = new DateTime(aa.getResponseTime());
-                var longTime = (respTime.Hour * 3600 + respTime.Minute * 60 + respTime.Second) * 1000 + respTime.Millisecond;
-                this.responseTime.Text = longTime + "ms";
+                this.responseTime.Text = aa.getResponseTime() + "ms";
             }
         }
 
