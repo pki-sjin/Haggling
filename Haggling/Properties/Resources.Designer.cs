@@ -61,15 +61,6 @@ namespace Haggling.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 代理商：.
-        /// </summary>
-        internal static string AGENT_TITLE {
-            get {
-                return ResourceManager.GetString("AGENT_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Haggling.
         /// </summary>
         internal static string APP_TITLE {
@@ -79,47 +70,11 @@ namespace Haggling.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 浏览器.
-        /// </summary>
-        internal static string BROWSER_TITLE {
-            get {
-                return ResourceManager.GetString("BROWSER_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 客户端.
-        /// </summary>
-        internal static string CLIENT_TITLE {
-            get {
-                return ResourceManager.GetString("CLIENT_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 启动.
         /// </summary>
         internal static string LAUNCH_BUTTON_TITLE {
             get {
                 return ResourceManager.GetString("LAUNCH_BUTTON_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 启动状态.
-        /// </summary>
-        internal static string LAUNCH_STATE_TITLE {
-            get {
-                return ResourceManager.GetString("LAUNCH_STATE_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 模式：.
-        /// </summary>
-        internal static string MODE_TITLE {
-            get {
-                return ResourceManager.GetString("MODE_TITLE", resourceCulture);
             }
         }
         
@@ -250,11 +205,11 @@ namespace Haggling.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 状态：.
+        ///   Looks up a localized string similar to 执行时间必须大于服务器时间.
         /// </summary>
-        internal static string STATUS_TITLE {
+        internal static string STATUS_TIME_ERROR {
             get {
-                return ResourceManager.GetString("STATUS_TITLE", resourceCulture);
+                return ResourceManager.GetString("STATUS_TIME_ERROR", resourceCulture);
             }
         }
         

@@ -117,26 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AGENT_TITLE" xml:space="preserve">
-    <value>代理商：</value>
-  </data>
   <data name="APP_TITLE" xml:space="preserve">
     <value>Haggling</value>
   </data>
-  <data name="BROWSER_TITLE" xml:space="preserve">
-    <value>浏览器</value>
-  </data>
-  <data name="CLIENT_TITLE" xml:space="preserve">
-    <value>客户端</value>
-  </data>
   <data name="LAUNCH_BUTTON_TITLE" xml:space="preserve">
     <value>启动</value>
-  </data>
-  <data name="LAUNCH_STATE_TITLE" xml:space="preserve">
-    <value>启动状态</value>
-  </data>
-  <data name="MODE_TITLE" xml:space="preserve">
-    <value>模式：</value>
   </data>
   <data name="STATUS_CONTENT_BROWSER" xml:space="preserve">
     <value>启动浏览器登录后执行脚本</value>
@@ -180,8 +165,8 @@
   <data name="STATUS_CONTENT_INPUT" xml:space="preserve">
     <value>请输入完整的脚本信息，代码、价格、数量</value>
   </data>
-  <data name="STATUS_TITLE" xml:space="preserve">
-    <value>状态：</value>
+  <data name="STATUS_TIME_ERROR" xml:space="preserve">
+    <value>执行时间必须大于服务器时间</value>
   </data>
   <data name="VALIDATE_BUTTON_TITLE" xml:space="preserve">
     <value>验证</value>

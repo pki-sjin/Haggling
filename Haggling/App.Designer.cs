@@ -51,7 +51,6 @@
             this.responseRefreshButton = new System.Windows.Forms.Button();
             this.responseTime = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.interval = new Haggling.Control.NumericTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.times = new System.Windows.Forms.NumericUpDown();
@@ -60,10 +59,24 @@
             this.time = new System.Windows.Forms.DateTimePicker();
             this.scriptTimer = new System.Windows.Forms.Timer(this.components);
             this.sync = new System.Windows.Forms.Timer(this.components);
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.executeInSB = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.alarm = new System.Windows.Forms.Timer(this.components);
+            this.interval = new Haggling.Control.NumericTextBox();
+            this.countInSB = new Haggling.Control.NumericTextBox();
+            this.codeInSB = new Haggling.Control.NumericTextBox();
             this.launchState.SuspendLayout();
             this.scriptState.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scriptData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.times)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // launchState
@@ -107,7 +120,7 @@
             this.launchButton.Name = "launchButton";
             this.launchButton.Size = new System.Drawing.Size(75, 30);
             this.launchButton.TabIndex = 4;
-            this.launchButton.Text = global::Haggling.Properties.Resources.LAUNCH_BUTTON_TITLE;
+            this.launchButton.Text = "启动";
             this.launchButton.UseVisualStyleBackColor = true;
             this.launchButton.Click += new System.EventHandler(this.launchButton_Click);
             // 
@@ -129,7 +142,7 @@
             this.clientMode.Size = new System.Drawing.Size(71, 21);
             this.clientMode.TabIndex = 3;
             this.clientMode.TabStop = true;
-            this.clientMode.Text = global::Haggling.Properties.Resources.CLIENT_TITLE;
+            this.clientMode.Text = "客户端";
             this.clientMode.UseVisualStyleBackColor = true;
             this.clientMode.CheckedChanged += new System.EventHandler(this.clientMode_CheckedChanged);
             // 
@@ -141,7 +154,7 @@
             this.browserMode.Size = new System.Drawing.Size(71, 21);
             this.browserMode.TabIndex = 2;
             this.browserMode.TabStop = true;
-            this.browserMode.Text = global::Haggling.Properties.Resources.BROWSER_TITLE;
+            this.browserMode.Text = "浏览器";
             this.browserMode.UseVisualStyleBackColor = true;
             this.browserMode.CheckedChanged += new System.EventHandler(this.browserMode_CheckedChanged);
             // 
@@ -182,9 +195,9 @@
             this.scriptState.Controls.Add(this.executeScript);
             this.scriptState.Controls.Add(this.label1);
             this.scriptState.Controls.Add(this.time);
-            this.scriptState.Location = new System.Drawing.Point(12, 189);
+            this.scriptState.Location = new System.Drawing.Point(6, 6);
             this.scriptState.Name = "scriptState";
-            this.scriptState.Size = new System.Drawing.Size(758, 354);
+            this.scriptState.Size = new System.Drawing.Size(738, 358);
             this.scriptState.TabIndex = 100;
             this.scriptState.TabStop = false;
             this.scriptState.Text = "脚本参数";
@@ -192,7 +205,7 @@
             // textScript
             // 
             this.textScript.Enabled = false;
-            this.textScript.Location = new System.Drawing.Point(677, 260);
+            this.textScript.Location = new System.Drawing.Point(657, 260);
             this.textScript.Name = "textScript";
             this.textScript.Size = new System.Drawing.Size(75, 30);
             this.textScript.TabIndex = 17;
@@ -213,7 +226,7 @@
             this.scriptData.Location = new System.Drawing.Point(9, 55);
             this.scriptData.Name = "scriptData";
             this.scriptData.RowTemplate.Height = 24;
-            this.scriptData.Size = new System.Drawing.Size(743, 199);
+            this.scriptData.Size = new System.Drawing.Size(723, 199);
             this.scriptData.TabIndex = 16;
             // 
             // code
@@ -272,16 +285,6 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "响应时间：";
             // 
-            // interval
-            // 
-            this.interval.AllowSpace = false;
-            this.interval.Enabled = false;
-            this.interval.Location = new System.Drawing.Point(151, 323);
-            this.interval.Name = "interval";
-            this.interval.Size = new System.Drawing.Size(74, 22);
-            this.interval.TabIndex = 12;
-            this.interval.Text = "200";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -316,7 +319,7 @@
             // executeScript
             // 
             this.executeScript.Enabled = false;
-            this.executeScript.Location = new System.Drawing.Point(677, 318);
+            this.executeScript.Location = new System.Drawing.Point(657, 319);
             this.executeScript.Name = "executeScript";
             this.executeScript.Size = new System.Drawing.Size(75, 30);
             this.executeScript.TabIndex = 8;
@@ -356,15 +359,123 @@
             this.sync.Interval = 5000;
             this.sync.Tick += new System.EventHandler(this.sync_Tick);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(12, 189);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(758, 400);
+            this.tabControl1.TabIndex = 18;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.scriptState);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(750, 371);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "抢单";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.executeInSB);
+            this.tabPage2.Controls.Add(this.label3);
+            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.countInSB);
+            this.tabPage2.Controls.Add(this.codeInSB);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(750, 371);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "对倒";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // executeInSB
+            // 
+            this.executeInSB.Enabled = false;
+            this.executeInSB.Location = new System.Drawing.Point(9, 113);
+            this.executeInSB.Name = "executeInSB";
+            this.executeInSB.Size = new System.Drawing.Size(75, 30);
+            this.executeInSB.TabIndex = 16;
+            this.executeInSB.Tag = "0";
+            this.executeInSB.Text = "执行";
+            this.executeInSB.UseVisualStyleBackColor = true;
+            this.executeInSB.Click += new System.EventHandler(this.executeInSB_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 17);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "数量";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "商品代码";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(750, 371);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "测速";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // alarm
+            // 
+            this.alarm.Tick += new System.EventHandler(this.alarm_Tick);
+            // 
+            // interval
+            // 
+            this.interval.AllowSpace = false;
+            this.interval.Enabled = false;
+            this.interval.Location = new System.Drawing.Point(151, 323);
+            this.interval.Name = "interval";
+            this.interval.Size = new System.Drawing.Size(74, 22);
+            this.interval.TabIndex = 12;
+            this.interval.Text = "200";
+            // 
+            // countInSB
+            // 
+            this.countInSB.AllowSpace = false;
+            this.countInSB.Enabled = false;
+            this.countInSB.Location = new System.Drawing.Point(76, 62);
+            this.countInSB.Name = "countInSB";
+            this.countInSB.Size = new System.Drawing.Size(117, 22);
+            this.countInSB.TabIndex = 15;
+            // 
+            // codeInSB
+            // 
+            this.codeInSB.AllowSpace = false;
+            this.codeInSB.Enabled = false;
+            this.codeInSB.Location = new System.Drawing.Point(76, 22);
+            this.codeInSB.Name = "codeInSB";
+            this.codeInSB.Size = new System.Drawing.Size(117, 22);
+            this.codeInSB.TabIndex = 13;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 555);
-            this.Controls.Add(this.scriptState);
+            this.ClientSize = new System.Drawing.Size(782, 605);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.launchState);
-            this.MaximumSize = new System.Drawing.Size(800, 600);
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.MaximumSize = new System.Drawing.Size(800, 700);
+            this.MinimumSize = new System.Drawing.Size(800, 650);
             this.Name = "App";
             this.Text = "Haggling";
             this.launchState.ResumeLayout(false);
@@ -373,6 +484,10 @@
             this.scriptState.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scriptData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.times)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -407,6 +522,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn count;
         private System.Windows.Forms.DataGridViewComboBoxColumn side;
         private System.Windows.Forms.Button textScript;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button executeInSB;
+        private Control.NumericTextBox countInSB;
+        private System.Windows.Forms.Label label3;
+        private Control.NumericTextBox codeInSB;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Timer alarm;
     }
 }
 

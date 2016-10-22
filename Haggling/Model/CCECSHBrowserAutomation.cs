@@ -211,5 +211,22 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
                 jobTask.run();
             }
         }
+
+        public void sellAndBuy(Script script)
+        {
+
+            for (int i = 0; i < script.jobs.Count; i++)
+            {
+                var job = script.jobs[i];
+                try
+                {
+                    driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var symbol=arguments[0];var quantity=arguments[1];var token=$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''));$.get('/api/v1/depth?symbol='+symbol).then(function(resp){try{var depth=JSON.parse(resp);var sell=parseFloat(depth.asks[0][0]);var buy=parseFloat(depth.bids[0][0]);var average=Math.ceil((buy+sell)/2*100)/100;if(average>buy&&average<sell){console.log(average);$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:average,quantity:quantity,symbol:symbol,side:'BUY',type:'LIMIT'}),headers:{CSRFToken:token}});$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:average,quantity:quantity,symbol:symbol,side:'SELL',type:'LIMIT'}),headers:{CSRFToken:token}});}}catch(e){console.error(e);}});done(0);", job.code, job.count);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+            }
+        }
     }
 }

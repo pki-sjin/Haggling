@@ -2,6 +2,8 @@
 using Haggling.Model;
 using Haggling.Properties;
 using System;
+using System.IO;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -9,6 +11,8 @@ namespace Haggling
 {
     public partial class App : Form
     {
+        private readonly DateTime orginalTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), TimeZoneInfo.Local);
+        
         private Factor factor = new Factor();
 
         private AbstractAutomation aa = null;
@@ -143,6 +147,9 @@ namespace Haggling
             this.executeScript.Enabled = enabled;
             this.responseRefreshButton.Enabled = enabled;
             this.textScript.Enabled = enabled;
+            this.codeInSB.Enabled = enabled;
+            this.countInSB.Enabled = enabled;
+            this.executeInSB.Enabled = enabled;
         }
 
         private void startScript()
@@ -202,12 +209,39 @@ namespace Haggling
                     script.times = Decimal.ToInt32(this.times.Value);
                     script.interval = this.interval.IntValue;
                     this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTING;
-                    this.startScript();
+
+                    var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
+                    var response = request.GetResponse();
+                    var streamReader = new StreamReader(response.GetResponseStream());
+                    var responseContent = streamReader.ReadToEnd();
+                    response.Close();
+                    var currentTime = orginalTime.AddMilliseconds(long.Parse(responseContent));
+
+                    var targetTime = DateTime.Parse(this.time.Text);
+
+                    var intervalTime = (targetTime.Hour - currentTime.Hour) * 3600 * 1000 + (targetTime.Minute - currentTime.Minute) * 60 * 1000 - currentTime.Second * 1000;
+
+                    if (intervalTime < 0)
+                    {
+                        this.statusContent.Text = Resources.STATUS_TIME_ERROR;
+                        return;
+                    }
+                    else if (intervalTime == 0)
+                    {
+                        this.startScript();
+                        return;
+                    }
+
+                    this.alarm.Interval = intervalTime;
+                    this.alarm.Start();
+                    this.executeScript.Text = "停止";
+                    this.executeScript.Tag = "1";
                 }
                 else if (tag == "1")
                 {
                     // 停止
                     this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTE_STOP;
+                    this.alarm.Stop();
                     this.stopScript();
                 }
             }
@@ -315,6 +349,28 @@ namespace Haggling
 
             var a = aa as CCECSHBrowserAutomation;
             a.testScript(script);
+        }
+
+        private void executeInSB_Click(object sender, EventArgs e)
+        {
+            if (aa != null)
+            {
+                var code = this.codeInSB.Text;
+                var count = this.countInSB.Text;
+                script.jobs.Clear();
+                var job = new Job();
+                job.code = code;
+                job.count = count;
+                this.script.jobs.Add(job);
+                var a = aa as CCECSHBrowserAutomation;
+                a.sellAndBuy(script);
+            }
+        }
+
+        private void alarm_Tick(object sender, EventArgs e)
+        {
+            this.startScript();
+            this.alarm.Stop();
         }
     }
 }
