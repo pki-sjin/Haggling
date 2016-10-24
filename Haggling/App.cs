@@ -219,20 +219,20 @@ namespace Haggling
 
                     var targetTime = DateTime.Parse(this.time.Text);
 
-                    var intervalTime = (targetTime.Hour - currentTime.Hour) * 3600 * 1000 + (targetTime.Minute - currentTime.Minute) * 60 * 1000 - currentTime.Second * 1000;
+                    var intervalTime = (targetTime.Hour - currentTime.Hour) * 3600 * 1000 + (targetTime.Minute - currentTime.Minute) * 60 * 1000 + (targetTime.Second - currentTime.Second) * 1000;
 
                     if (intervalTime < 0)
                     {
                         this.statusContent.Text = Resources.STATUS_TIME_ERROR;
                         return;
                     }
-                    else if (intervalTime == 0)
+                    else if (intervalTime < 10 * 1000)
                     {
                         this.startScript();
                         return;
                     }
 
-                    this.alarm.Interval = intervalTime;
+                    this.alarm.Interval = intervalTime - 10 * 1000;
                     this.alarm.Start();
                     this.executeScript.Text = "停止";
                     this.executeScript.Tag = "1";
