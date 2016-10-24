@@ -123,6 +123,16 @@
   <data name="LAUNCH_BUTTON_TITLE" xml:space="preserve">
     <value>启动</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="order" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\order.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="sellbuy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sellbuy.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
+  <data name="speed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\speed.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
+  </data>
   <data name="STATUS_CONTENT_BROWSER" xml:space="preserve">
     <value>启动浏览器登录后执行脚本</value>
   </data>

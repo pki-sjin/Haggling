@@ -1,4 +1,5 @@
 ﻿
+using Haggling.Properties;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
@@ -25,24 +26,6 @@ namespace Haggling.Model
         {
             try
             {
-                //string serverTime = null;
-                //var millisecond = 0;
-                //try
-                //{
-                //    var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
-                //    var response = request.GetResponse();
-                //    var streamReader = new StreamReader(response.GetResponseStream());
-                //    var responseContent = streamReader.ReadToEnd();
-                //    response.Close();
-                //    var currentTime = orginalTime.AddMilliseconds(long.Parse(responseContent));
-                //    millisecond = currentTime.Millisecond;
-                //    serverTime = currentTime.ToLongTimeString();
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.Out.WriteLine(e);
-                //}
-
                 string serverTime = null;
                 try
                 {
@@ -74,34 +57,12 @@ namespace Haggling.Model
                     // 执行时间匹配，开始执行
                     try
                     {
-                        driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var times=arguments[0];var interval=arguments[1];var count=arguments[2];var prices=arguments[3];var quantities=arguments[4];var symbols=arguments[5];var sides=arguments[6];var token=$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''));for(var i=0;i<count;i++){var request=()=>{var price=prices[i];var quantity=quantities[i];var symbol=symbols[i];var side=sides[i];var failCount=0;var error;var order=()=>{if(failCount>=times){layer.msg(error.responseJSON.msg,{icon:5,shift:1});return;}
-$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:side,type:'LIMIT'}),headers:{CSRFToken:token},success:function(){layer.msg('下单成功',{icon:5,shift:1});},error:function(e){error=e;failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;if(later<0){later=0;}
-setTimeout(()=>{order();},later);});}
-request();}
-done(0);", script.times, script.interval, script.jobs.Count, prices, quantities, symbols, sides);
+                        driver.ExecuteAsyncScript(Resources.order, script.times, script.interval, script.jobs.Count, prices, quantities, symbols, sides);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Console.Out.WriteLine(e);
                     }
-                    //try
-                    //{
-                    //    var later = 1000 - millisecond - script.interval;
-                    //    if (later < 0)
-                    //    {
-                    //        later = 0;
-                    //    }
-                    //    Thread.Sleep(later);
-                    //}
-                    //catch (Exception)
-                    //{
-                    //}
-
-                    //foreach (var job in script.jobs)
-                    //{
-
-                    //    var jobTask = new JobTask(job, this.cookieString, this.CSRFToken, script.times);
-                    //    jobTask.run();
-                    //}
 
                     return true;
                 }
@@ -168,25 +129,18 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
 
         public override long getResponseTime()
         {
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
+            long time = 0;
             try
             {
-                driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
-                long time = 0;
-                try
-                {
-                    time = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
-                }
-                catch (Exception e)
-                {
-                    Console.Out.WriteLine(e);
-                }
-
-                return time;
+                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return 0;
+                Console.Out.WriteLine(e);
             }
+
+            return time;
         }
 
         public void getHeader()
@@ -220,13 +174,32 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
                 var job = script.jobs[i];
                 try
                 {
-                    driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var symbol=arguments[0];var quantity=arguments[1];var token=$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''));$.get('/api/v1/depth?symbol='+symbol).then(function(resp){try{var depth=JSON.parse(resp);var sell=parseFloat(depth.asks[0][0]);var buy=parseFloat(depth.bids[0][0]);var average=Math.ceil((buy+sell)/2*100)/100;if(average>buy&&average<sell){console.log(average);$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:average,quantity:quantity,symbol:symbol,side:'BUY',type:'LIMIT'}),headers:{CSRFToken:token}});$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:average,quantity:quantity,symbol:symbol,side:'SELL',type:'LIMIT'}),headers:{CSRFToken:token}});}}catch(e){console.error(e);}});done(0);", job.code, job.count);
+                    driver.ExecuteAsyncScript(Resources.sellbuy, job.code, job.count);
                 }
                 catch (Exception e)
                 {
                     Console.Out.WriteLine(e);
                 }
             }
+        }
+
+        public long getOrderResponse(Script script)
+        {
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
+            long time = 0;
+            for (int i = 0; i < script.jobs.Count; i++)
+            {
+                var job = script.jobs[i];
+                try
+                {
+                    time = (long)driver.ExecuteAsyncScript(Resources.speed, job.code, job.price);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+            }
+            return time;
         }
     }
 }

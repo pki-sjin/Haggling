@@ -79,6 +79,77 @@ namespace Haggling.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to var done = arguments[arguments.length - 1];
+        ///var times = arguments[0];
+        ///var interval = arguments[1];
+        ///var count = arguments[2];
+        ///var prices = arguments[3];
+        ///var quantities = arguments[4];
+        ///var symbols = arguments[5];
+        ///var sides = arguments[6];
+        ///var token = $.md5(document.cookie.match(&apos;CSRFToken=\.+?;&apos;)[0].split(&apos;=&apos;)[1].replace(&apos;;&apos;, &apos;&apos;));
+        ///for (var i = 0; i &lt; count; i++) {
+        ///	var request = () =  &gt; {
+        ///		var price = prices[i];
+        ///		var quantity = quantities[i];
+        ///		var symbol = symbols[i];
+        ///		var side = sides[i];        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string order {
+            get {
+                return ResourceManager.GetString("order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var done = arguments[arguments.length - 1];
+        ///var symbol = arguments[0];
+        ///var quantity = arguments[1];
+        ///var token = $.md5(document.cookie.match(&apos;CSRFToken=\.+?;&apos;)[0].split(&apos;=&apos;)[1].replace(&apos;;&apos;, &apos;&apos;));
+        ///$.get(&apos;/api/v1/depth?symbol=&apos; + symbol).then(function (resp) {
+        ///	try {
+        ///		var depth = JSON.parse(resp);
+        ///		var sell = parseFloat(depth.asks[0][0]);
+        ///		var buy = parseFloat(depth.bids[0][0]);
+        ///		var average = Math.ceil((buy + sell) / 2 * 100) / 100;
+        ///		if (average &gt; buy &amp;&amp; average &lt; sell) {
+        ///			console.log(averag [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sellbuy {
+            get {
+                return ResourceManager.GetString("sellbuy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var done = arguments[arguments.length - 1];
+        ///var symbol = arguments[0];
+        ///var price = arguments[1];
+        ///var token = $.md5(document.cookie.match(&apos;CSRFToken=\.+?;&apos;)[0].split(&apos;=&apos;)[1].replace(&apos;;&apos;, &apos;&apos;));
+        ///var start = new Date();
+        ///$.ajax({
+        ///	type : &apos;POST&apos;,
+        ///	url : &apos;/exchange/private/order&apos;,
+        ///	data : $.param({
+        ///		price : price,
+        ///		quantity : 1,
+        ///		symbol : symbol,
+        ///		side : &apos;BUY&apos;,
+        ///		type : &apos;LIMIT&apos;
+        ///	}),
+        ///	headers : {
+        ///		CSRFToken : token
+        ///	},
+        ///	success : function (resp) {
+        ///		done(resp.transactTime - start.getTime()); [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string speed {
+            get {
+                return ResourceManager.GetString("speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 启动浏览器登录后执行脚本.
         /// </summary>
         internal static string STATUS_CONTENT_BROWSER {

@@ -24,6 +24,7 @@ namespace Haggling.Model
         public string side { get; set; }
     }
 
+    
     public class JobTask
     {
         private readonly DateTime orginalTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), TimeZoneInfo.Local);

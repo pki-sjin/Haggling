@@ -150,6 +150,9 @@ namespace Haggling
             this.codeInSB.Enabled = enabled;
             this.countInSB.Enabled = enabled;
             this.executeInSB.Enabled = enabled;
+            this.speedCode.Enabled = enabled;
+            this.speedPrice.Enabled = enabled;
+            this.speedExecute.Enabled = enabled;
         }
 
         private void startScript()
@@ -226,7 +229,7 @@ namespace Haggling
                         this.statusContent.Text = Resources.STATUS_TIME_ERROR;
                         return;
                     }
-                    else if (intervalTime < 10 * 1000)
+                    else if (intervalTime <= 10 * 1000)
                     {
                         this.startScript();
                         return;
@@ -371,6 +374,22 @@ namespace Haggling
         {
             this.startScript();
             this.alarm.Stop();
+        }
+
+        private void speedExecute_Click(object sender, EventArgs e)
+        {
+            if (aa != null)
+            {
+                var code = this.speedCode.Text;
+                var price = this.speedPrice.Text;
+                script.jobs.Clear();
+                var job = new Job();
+                job.code = code;
+                job.price = price;
+                this.script.jobs.Add(job);
+                var a = aa as CCECSHBrowserAutomation;
+                this.speedResponseTime.Text = a.getOrderResponse(script) + "ms";
+            }
         }
     }
 }

@@ -1,0 +1,66 @@
+﻿var done = arguments[arguments.length - 1];
+var times = arguments[0];
+var interval = arguments[1];
+var count = arguments[2];
+var prices = arguments[3];
+var quantities = arguments[4];
+var symbols = arguments[5];
+var sides = arguments[6];
+var token = $.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';', ''));
+for (var i = 0; i < count; i++) {
+	var request = function () {
+		var price = prices[i];
+		var quantity = quantities[i];
+		var symbol = symbols[i];
+		var side = sides[i];
+		var failCount = 0;
+		var error;
+		var order = function () {
+			if (failCount >= times) {
+				layer.msg(error.responseJSON.msg, {
+					icon : 5,
+					shift : 1
+				});
+				return;
+			}
+			$.ajax({
+				type : 'POST',
+				url : '/exchange/private/order',
+				data : $.param({
+					price : price,
+					quantity : quantity,
+					symbol : symbol,
+					side : side,
+					type : 'LIMIT'
+				}),
+				headers : {
+					CSRFToken : token
+				},
+				success : function () {
+					layer.msg('下单成功', {
+						icon : 5,
+						shift : 1
+					});
+				},
+				error : function (e) {
+					error = e;
+					failCount++;
+					order();
+				}
+			});
+		};
+		$.get('/exchange/public/serverTime').then(function (resp) {
+			var date = new Date(resp);
+			var millisecond = date.getMilliseconds();
+			var later = 1000 - interval - millisecond;
+			if (later < 0) {
+				later = 0;
+			}
+			setTimeout(function () {
+				order();
+			}, later);
+		});
+	}
+	request();
+}
+done(0);

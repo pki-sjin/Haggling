@@ -1,0 +1,48 @@
+﻿var done = arguments[arguments.length - 1];
+var symbol = arguments[0];
+var price = arguments[1];
+var token = $.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';', ''));
+var start = new Date();
+$.ajax({
+	type : 'POST',
+	url : '/exchange/private/order',
+	data : $.param({
+		price : price,
+		quantity : 1,
+		symbol : symbol,
+		side : 'BUY',
+		type : 'LIMIT'
+	}),
+	headers : {
+		CSRFToken : token
+	},
+	success : function (resp) {
+		done(resp.transactTime - start.getTime());
+		var orderId = resp.orderId;
+		$.ajax({
+			type : 'POST',
+			url : '/exchange/private/deleteOrder',
+			data : $.param({
+				orderId : orderId,
+				symbol : symbol
+			}),
+			headers : {
+				CSRFToken : token
+			},
+			error : function (e) {
+				layer.msg(e.responseJSON.msg, {
+					icon : 5,
+					shift : 1
+				});
+			}
+		});
+	},
+	error : function (e) {
+		var end = new Date();
+		done(end - start);
+		layer.msg(e.responseJSON.msg, {
+			icon : 5,
+			shift : 1
+		});
+	}
+});
