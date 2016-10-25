@@ -79,6 +79,15 @@ namespace Haggling.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string log {
+            get {
+                return ResourceManager.GetString("log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to var done = arguments[arguments.length - 1];
         ///var times = arguments[0];
         ///var interval = arguments[1];
@@ -88,12 +97,14 @@ namespace Haggling.Properties {
         ///var symbols = arguments[5];
         ///var sides = arguments[6];
         ///var token = $.md5(document.cookie.match(&apos;CSRFToken=\.+?;&apos;)[0].split(&apos;=&apos;)[1].replace(&apos;;&apos;, &apos;&apos;));
+        ///if (!window.logs) {
+        ///	window.logs = [];
+        ///}
         ///for (var i = 0; i &lt; count; i++) {
-        ///	var request = () =  &gt; {
+        ///	var request = function () {
         ///		var price = prices[i];
         ///		var quantity = quantities[i];
-        ///		var symbol = symbols[i];
-        ///		var side = sides[i];        /// [rest of string was truncated]&quot;;.
+        ///		v [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string order {
             get {

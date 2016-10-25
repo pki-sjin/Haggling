@@ -1,8 +1,11 @@
 ﻿
 using Haggling.Properties;
+using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using System.Collections.ObjectModel;
+using System.IO;
 namespace Haggling.Model
 {
     class CCECSHBrowserAutomation : AbstractAutomation
@@ -29,7 +32,7 @@ namespace Haggling.Model
                 string serverTime = null;
                 try
                 {
-                    serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
+                    serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
                 }
                 catch (Exception e)
                 {
@@ -133,7 +136,7 @@ namespace Haggling.Model
             long time = 0;
             try
             {
-                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
+                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
             }
             catch (Exception e)
             {
@@ -200,6 +203,49 @@ namespace Haggling.Model
                 }
             }
             return time;
+        }
+
+        public void readLogs()
+        {
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
+            try
+            {
+                ReadOnlyCollection<object> logs = null;
+                try
+                {
+                    logs = (ReadOnlyCollection<object>)driver.ExecuteAsyncScript(Resources.log);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+                if (logs != null)
+                {
+                    var content = "";
+                    foreach (string log in logs)
+                    {
+                        dynamic obj = JsonConvert.DeserializeObject(log);
+                        var time = obj.time;
+                        var data = obj.data;
+                        if (data.transactTime != null)
+                        {
+                            var transactTime = orginalTime.AddMilliseconds((long)data.transactTime);
+                            data.transactTime = transactTime.ToString(@"yyyy-MM-dd HH:mm:ss.FFF");
+                        }
+                        var currentTime = orginalTime.AddMilliseconds((long)time);
+                        content += currentTime.ToString(@"yyyy-MM-dd HH:mm:ss.FFF");
+                        content += ":";
+                        content += JsonConvert.SerializeObject(data);
+                        content += "\r\n";
+                    }
+
+                    File.AppendAllText(Environment.CurrentDirectory + @"\log.txt", content);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Out.WriteLine(e);
+            }
         }
     }
 }

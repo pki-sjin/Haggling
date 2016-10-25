@@ -45,7 +45,7 @@ $.get('/api/v1/depth?symbol=' + symbol).then(function (resp) {
 				},
 				success : function () {
 					layer.msg('对倒成功', {
-						icon : 5,
+						icon : 1,
 						shift : 1
 					});
 				},

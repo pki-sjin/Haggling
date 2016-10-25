@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.launchState = new System.Windows.Forms.GroupBox();
             this.statusContent = new System.Windows.Forms.Label();
             this.statusTitle = new System.Windows.Forms.Label();
@@ -76,6 +76,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.speedPrice = new Haggling.Control.NumericTextBox();
             this.speedCode = new Haggling.Control.NumericTextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.readLogs = new System.Windows.Forms.Button();
             this.alarm = new System.Windows.Forms.Timer(this.components);
             this.launchState.SuspendLayout();
             this.scriptState.SuspendLayout();
@@ -85,6 +87,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // launchState
@@ -239,23 +242,23 @@
             // 
             // code
             // 
-            dataGridViewCellStyle4.NullValue = null;
-            this.code.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.NullValue = null;
+            this.code.DefaultCellStyle = dataGridViewCellStyle1;
             this.code.HeaderText = "商品代码";
             this.code.MaxInputLength = 7;
             this.code.Name = "code";
             // 
             // price
             // 
-            dataGridViewCellStyle5.NullValue = null;
-            this.price.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.NullValue = null;
+            this.price.DefaultCellStyle = dataGridViewCellStyle2;
             this.price.HeaderText = "价格";
             this.price.Name = "price";
             // 
             // count
             // 
-            dataGridViewCellStyle6.NullValue = null;
-            this.count.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.NullValue = null;
+            this.count.DefaultCellStyle = dataGridViewCellStyle3;
             this.count.HeaderText = "数量";
             this.count.Name = "count";
             // 
@@ -360,7 +363,7 @@
             this.time.CustomFormat = "HH:mm:ss";
             this.time.Enabled = false;
             this.time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.time.Location = new System.Drawing.Point(93, 27);
+            this.time.Location = new System.Drawing.Point(90, 27);
             this.time.Name = "time";
             this.time.ShowUpDown = true;
             this.time.Size = new System.Drawing.Size(121, 22);
@@ -382,6 +385,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(12, 189);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -515,7 +519,7 @@
             this.价格.Name = "价格";
             this.价格.Size = new System.Drawing.Size(36, 17);
             this.价格.TabIndex = 19;
-            this.价格.Text = "数量";
+            this.价格.Text = "价格";
             // 
             // label8
             // 
@@ -544,6 +548,28 @@
             this.speedCode.Size = new System.Drawing.Size(117, 22);
             this.speedCode.TabIndex = 18;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.readLogs);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(750, 371);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "日志";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // readLogs
+            // 
+            this.readLogs.Enabled = false;
+            this.readLogs.Location = new System.Drawing.Point(5, 18);
+            this.readLogs.Name = "readLogs";
+            this.readLogs.Size = new System.Drawing.Size(75, 30);
+            this.readLogs.TabIndex = 22;
+            this.readLogs.Tag = "0";
+            this.readLogs.Text = "读取";
+            this.readLogs.UseVisualStyleBackColor = true;
+            this.readLogs.Click += new System.EventHandler(this.readLogs_Click);
+            // 
             // alarm
             // 
             this.alarm.Tick += new System.EventHandler(this.alarm_Tick);
@@ -571,6 +597,7 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -622,6 +649,8 @@
         private Control.NumericTextBox speedCode;
         private System.Windows.Forms.Label speedResponseTime;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button readLogs;
     }
 }
 

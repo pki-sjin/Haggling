@@ -153,6 +153,7 @@ namespace Haggling
             this.speedCode.Enabled = enabled;
             this.speedPrice.Enabled = enabled;
             this.speedExecute.Enabled = enabled;
+            this.readLogs.Enabled = enabled;
         }
 
         private void startScript()
@@ -389,6 +390,16 @@ namespace Haggling
                 this.script.jobs.Add(job);
                 var a = aa as CCECSHBrowserAutomation;
                 this.speedResponseTime.Text = a.getOrderResponse(script) + "ms";
+            }
+        }
+
+        private void readLogs_Click(object sender, EventArgs e)
+        {
+            if (aa != null)
+            {
+                var a = aa as CCECSHBrowserAutomation;
+                a.readLogs();
+                MessageBox.Show(this, "读取成功\r\n" + Environment.CurrentDirectory + @"\log.txt", "信息");
             }
         }
     }

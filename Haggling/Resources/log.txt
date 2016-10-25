@@ -1,0 +1,6 @@
+var done = arguments[arguments.length - 1];
+if (window.logs) {
+	done(window.logs);
+} else {
+	done([]);
+}
