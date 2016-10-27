@@ -60,7 +60,7 @@ namespace Haggling.Model
                     // 执行时间匹配，开始执行
                     try
                     {
-                        driver.ExecuteAsyncScript(Resources.order, script.times, script.interval, script.jobs.Count, prices, quantities, symbols, sides);
+                        driver.ExecuteAsyncScript(Resources.order, script.times, script.interval, script.orderWait, script.jobs.Count, prices, quantities, symbols, sides);
                     }
                     catch (Exception e)
                     {
@@ -136,7 +136,7 @@ namespace Haggling.Model
             long time = 0;
             try
             {
-                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
+                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date(resp);done(end-start);});");
             }
             catch (Exception e)
             {
@@ -219,7 +219,7 @@ namespace Haggling.Model
                 {
                     Console.Out.WriteLine(e);
                 }
-                if (logs != null)
+                if (logs != null && logs.Count > 0)
                 {
                     var content = "";
                     foreach (string log in logs)

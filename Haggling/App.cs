@@ -154,6 +154,7 @@ namespace Haggling
             this.speedPrice.Enabled = enabled;
             this.speedExecute.Enabled = enabled;
             this.readLogs.Enabled = enabled;
+            this.orderWait.Enabled = enabled;
         }
 
         private void startScript()
@@ -198,7 +199,9 @@ namespace Haggling
                         if (string.IsNullOrWhiteSpace(code)
                             || string.IsNullOrWhiteSpace(price)
                             || string.IsNullOrWhiteSpace(count)
-                            || string.IsNullOrWhiteSpace(side))
+                            || string.IsNullOrWhiteSpace(side)
+                            || string.IsNullOrWhiteSpace(this.interval.Text)
+                            || string.IsNullOrWhiteSpace(this.orderWait.Text))
                         {
                             this.statusContent.Text = Resources.STATUS_CONTENT_INPUT;
                             return;
@@ -212,6 +215,7 @@ namespace Haggling
                     }
                     script.times = Decimal.ToInt32(this.times.Value);
                     script.interval = this.interval.IntValue;
+                    script.orderWait = this.orderWait.IntValue;
                     this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTING;
 
                     var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");

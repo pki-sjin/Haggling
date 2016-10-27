@@ -42,6 +42,7 @@
             this.agentTitle = new System.Windows.Forms.Label();
             this.agent = new System.Windows.Forms.ComboBox();
             this.scriptState = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.textScript = new System.Windows.Forms.Button();
             this.scriptData = new System.Windows.Forms.DataGridView();
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,7 +52,6 @@
             this.responseRefreshButton = new System.Windows.Forms.Button();
             this.responseTime = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.interval = new Haggling.Control.NumericTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.times = new System.Windows.Forms.NumericUpDown();
@@ -66,19 +66,21 @@
             this.executeInSB = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.countInSB = new Haggling.Control.NumericTextBox();
-            this.codeInSB = new Haggling.Control.NumericTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.speedResponseTime = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.speedExecute = new System.Windows.Forms.Button();
             this.价格 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.speedPrice = new Haggling.Control.NumericTextBox();
-            this.speedCode = new Haggling.Control.NumericTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.readLogs = new System.Windows.Forms.Button();
             this.alarm = new System.Windows.Forms.Timer(this.components);
+            this.orderWait = new Haggling.Control.NumericTextBox();
+            this.interval = new Haggling.Control.NumericTextBox();
+            this.countInSB = new Haggling.Control.NumericTextBox();
+            this.codeInSB = new Haggling.Control.NumericTextBox();
+            this.speedPrice = new Haggling.Control.NumericTextBox();
+            this.speedCode = new Haggling.Control.NumericTextBox();
             this.launchState.SuspendLayout();
             this.scriptState.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scriptData)).BeginInit();
@@ -155,6 +157,7 @@
             this.clientMode.TabStop = true;
             this.clientMode.Text = "客户端";
             this.clientMode.UseVisualStyleBackColor = true;
+            this.clientMode.Visible = false;
             this.clientMode.CheckedChanged += new System.EventHandler(this.clientMode_CheckedChanged);
             // 
             // browserMode
@@ -194,6 +197,8 @@
             // 
             // scriptState
             // 
+            this.scriptState.Controls.Add(this.label4);
+            this.scriptState.Controls.Add(this.orderWait);
             this.scriptState.Controls.Add(this.textScript);
             this.scriptState.Controls.Add(this.scriptData);
             this.scriptState.Controls.Add(this.responseRefreshButton);
@@ -212,6 +217,15 @@
             this.scriptState.TabIndex = 100;
             this.scriptState.TabStop = false;
             this.scriptState.Text = "脚本参数";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(246, 298);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(106, 17);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "下单间隔(ms)：";
             // 
             // textScript
             // 
@@ -296,16 +310,6 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "响应时间：";
             // 
-            // interval
-            // 
-            this.interval.AllowSpace = false;
-            this.interval.Enabled = false;
-            this.interval.Location = new System.Drawing.Point(151, 323);
-            this.interval.Name = "interval";
-            this.interval.Size = new System.Drawing.Size(74, 22);
-            this.interval.TabIndex = 12;
-            this.interval.Text = "200";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -328,6 +332,16 @@
             // 
             this.times.Enabled = false;
             this.times.Location = new System.Drawing.Point(151, 296);
+            this.times.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.times.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.times.Name = "times";
             this.times.Size = new System.Drawing.Size(74, 22);
             this.times.TabIndex = 9;
@@ -363,7 +377,7 @@
             this.time.CustomFormat = "HH:mm:ss";
             this.time.Enabled = false;
             this.time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.time.Location = new System.Drawing.Point(90, 27);
+            this.time.Location = new System.Drawing.Point(104, 27);
             this.time.Name = "time";
             this.time.ShowUpDown = true;
             this.time.Size = new System.Drawing.Size(121, 22);
@@ -448,24 +462,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "商品代码";
             // 
-            // countInSB
-            // 
-            this.countInSB.AllowSpace = false;
-            this.countInSB.Enabled = false;
-            this.countInSB.Location = new System.Drawing.Point(76, 62);
-            this.countInSB.Name = "countInSB";
-            this.countInSB.Size = new System.Drawing.Size(117, 22);
-            this.countInSB.TabIndex = 15;
-            // 
-            // codeInSB
-            // 
-            this.codeInSB.AllowSpace = false;
-            this.codeInSB.Enabled = false;
-            this.codeInSB.Location = new System.Drawing.Point(76, 22);
-            this.codeInSB.Name = "codeInSB";
-            this.codeInSB.Size = new System.Drawing.Size(117, 22);
-            this.codeInSB.TabIndex = 13;
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.speedResponseTime);
@@ -530,24 +526,6 @@
             this.label8.TabIndex = 17;
             this.label8.Text = "商品代码";
             // 
-            // speedPrice
-            // 
-            this.speedPrice.AllowSpace = false;
-            this.speedPrice.Enabled = false;
-            this.speedPrice.Location = new System.Drawing.Point(76, 62);
-            this.speedPrice.Name = "speedPrice";
-            this.speedPrice.Size = new System.Drawing.Size(117, 22);
-            this.speedPrice.TabIndex = 20;
-            // 
-            // speedCode
-            // 
-            this.speedCode.AllowSpace = false;
-            this.speedCode.Enabled = false;
-            this.speedCode.Location = new System.Drawing.Point(76, 22);
-            this.speedCode.Name = "speedCode";
-            this.speedCode.Size = new System.Drawing.Size(117, 22);
-            this.speedCode.TabIndex = 18;
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.readLogs);
@@ -574,6 +552,62 @@
             // 
             this.alarm.Tick += new System.EventHandler(this.alarm_Tick);
             // 
+            // orderWait
+            // 
+            this.orderWait.AllowSpace = false;
+            this.orderWait.Enabled = false;
+            this.orderWait.Location = new System.Drawing.Point(374, 295);
+            this.orderWait.Name = "orderWait";
+            this.orderWait.Size = new System.Drawing.Size(74, 22);
+            this.orderWait.TabIndex = 18;
+            this.orderWait.Text = "40";
+            // 
+            // interval
+            // 
+            this.interval.AllowSpace = false;
+            this.interval.Enabled = false;
+            this.interval.Location = new System.Drawing.Point(151, 323);
+            this.interval.Name = "interval";
+            this.interval.Size = new System.Drawing.Size(74, 22);
+            this.interval.TabIndex = 12;
+            this.interval.Text = "200";
+            // 
+            // countInSB
+            // 
+            this.countInSB.AllowSpace = false;
+            this.countInSB.Enabled = false;
+            this.countInSB.Location = new System.Drawing.Point(76, 62);
+            this.countInSB.Name = "countInSB";
+            this.countInSB.Size = new System.Drawing.Size(117, 22);
+            this.countInSB.TabIndex = 15;
+            // 
+            // codeInSB
+            // 
+            this.codeInSB.AllowSpace = false;
+            this.codeInSB.Enabled = false;
+            this.codeInSB.Location = new System.Drawing.Point(76, 22);
+            this.codeInSB.Name = "codeInSB";
+            this.codeInSB.Size = new System.Drawing.Size(117, 22);
+            this.codeInSB.TabIndex = 13;
+            // 
+            // speedPrice
+            // 
+            this.speedPrice.AllowSpace = false;
+            this.speedPrice.Enabled = false;
+            this.speedPrice.Location = new System.Drawing.Point(76, 62);
+            this.speedPrice.Name = "speedPrice";
+            this.speedPrice.Size = new System.Drawing.Size(117, 22);
+            this.speedPrice.TabIndex = 20;
+            // 
+            // speedCode
+            // 
+            this.speedCode.AllowSpace = false;
+            this.speedCode.Enabled = false;
+            this.speedCode.Location = new System.Drawing.Point(76, 22);
+            this.speedCode.Name = "speedCode";
+            this.speedCode.Size = new System.Drawing.Size(117, 22);
+            this.speedCode.TabIndex = 18;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -581,7 +615,7 @@
             this.ClientSize = new System.Drawing.Size(782, 605);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.launchState);
-            this.MaximumSize = new System.Drawing.Size(800, 700);
+            this.MaximumSize = new System.Drawing.Size(800, 650);
             this.MinimumSize = new System.Drawing.Size(800, 650);
             this.Name = "App";
             this.Text = "Haggling";
@@ -651,6 +685,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button readLogs;
+        private System.Windows.Forms.Label label4;
+        private Control.NumericTextBox orderWait;
     }
 }
 

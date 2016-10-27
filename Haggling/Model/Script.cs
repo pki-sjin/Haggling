@@ -14,6 +14,7 @@ namespace Haggling.Model
         public List<Job> jobs = new List<Job>();
         public int times { get; set; }
         public int interval { get; set; }
+        public int orderWait { get; set; }
     }
 
     public class Job
