@@ -17,8 +17,7 @@ $.ajax({
 		CSRFToken : token
 	},
 	success : function (resp) {
-		var end = new Date();
-		done(end - start);
+		done(resp.transactTime - start.getTime());
 		var orderId = resp.orderId;
 		$.ajax({
 			type : 'POST',

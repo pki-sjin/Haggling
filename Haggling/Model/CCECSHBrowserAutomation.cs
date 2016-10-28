@@ -136,7 +136,7 @@ namespace Haggling.Model
             long time = 0;
             try
             {
-                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
+                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date(resp);done(end-start);});");
             }
             catch (Exception e)
             {
