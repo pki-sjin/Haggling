@@ -1,0 +1,68 @@
+﻿var done = arguments[arguments.length - 1];
+var symbol = arguments[0];
+var quantity = arguments[1];
+var token = $.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';', ''));
+$.get('/api/v1/depth?symbol=' + symbol).then(function (resp) {
+	try {
+		var depth = JSON.parse(resp);
+		var sell = parseFloat(depth.asks[0][0]);
+		var buy = parseFloat(depth.bids[0][0]);
+		var average = Math.ceil((buy + sell) / 2 * 100) / 100;
+		if (average > buy && average < sell) {
+			console.log(average);
+			$.ajax({
+				type : 'POST',
+				url : '/exchange/private/order',
+				data : $.param({
+					price : average,
+					quantity : quantity,
+					symbol : symbol,
+					side : 'BUY',
+					type : 'LIMIT'
+				}),
+				headers : {
+					CSRFToken : token
+				},
+				error : function (e) {
+					layer.msg(e.responseJSON.msg, {
+						icon : 5,
+						shift : 1
+					});
+				}
+			});
+			$.ajax({
+				type : 'POST',
+				url : '/exchange/private/order',
+				data : $.param({
+					price : average,
+					quantity : quantity,
+					symbol : symbol,
+					side : 'SELL',
+					type : 'LIMIT'
+				}),
+				headers : {
+					CSRFToken : token
+				},
+				success : function () {
+					layer.msg('对倒成功', {
+						icon : 1,
+						shift : 1
+					});
+				},
+				error : function (e) {
+					layer.msg(e.responseJSON.msg, {
+						icon : 5,
+						shift : 1
+					});
+				}
+			});
+		}
+	} catch (e) {
+		console.error(e);
+		layer.msg(e.message, {
+			icon : 5,
+			shift : 1
+		});
+	}
+});
+done(0);

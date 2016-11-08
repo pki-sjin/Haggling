@@ -14,6 +14,7 @@ namespace Haggling.Model
         public List<Job> jobs = new List<Job>();
         public int times { get; set; }
         public int interval { get; set; }
+        public int orderWait { get; set; }
     }
 
     public class Job
@@ -24,6 +25,7 @@ namespace Haggling.Model
         public string side { get; set; }
     }
 
+    
     public class JobTask
     {
         private readonly DateTime orginalTime = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), TimeZoneInfo.Local);

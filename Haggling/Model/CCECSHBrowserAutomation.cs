@@ -1,7 +1,11 @@
 ﻿
+using Haggling.Properties;
+using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using System.Collections.ObjectModel;
+using System.IO;
 namespace Haggling.Model
 {
     class CCECSHBrowserAutomation : AbstractAutomation
@@ -25,28 +29,10 @@ namespace Haggling.Model
         {
             try
             {
-                //string serverTime = null;
-                //var millisecond = 0;
-                //try
-                //{
-                //    var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
-                //    var response = request.GetResponse();
-                //    var streamReader = new StreamReader(response.GetResponseStream());
-                //    var responseContent = streamReader.ReadToEnd();
-                //    response.Close();
-                //    var currentTime = orginalTime.AddMilliseconds(long.Parse(responseContent));
-                //    millisecond = currentTime.Millisecond;
-                //    serverTime = currentTime.ToLongTimeString();
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.Out.WriteLine(e);
-                //}
-
                 string serverTime = null;
                 try
                 {
-                    serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[0];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
+                    serverTime = (string)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var time=date.toTimeString().match('\.+? ')[0].trim();done(time);});");
                 }
                 catch (Exception e)
                 {
@@ -74,34 +60,12 @@ namespace Haggling.Model
                     // 执行时间匹配，开始执行
                     try
                     {
-                        driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var times=arguments[0];var interval=arguments[1];var count=arguments[2];var prices=arguments[3];var quantities=arguments[4];var symbols=arguments[5];var sides=arguments[6];for(var i=0;i<count;i++){var request=()=>{var price=prices[i];var quantity=quantities[i];var symbol=symbols[i];var side=sides[i];var failCount=0;var order=()=>{if(failCount>=times){return;}
-$.ajax({type:'POST',url:'/exchange/private/order',data:$.param({price:price,quantity:quantity,symbol:symbol,side:side,type:'LIMIT'}),headers:{CSRFToken:$.md5(document.cookie.match('CSRFToken=\.+?;')[0].split('=')[1].replace(';',''))},error:function(){failCount++;order();}});};$.get('/exchange/public/serverTime').then(function(resp){var date=new Date(resp);var millisecond=date.getMilliseconds();var later=1000-interval-millisecond;if(later<0){later=0;}
-setTimeout(()=>{order();},later);});}
-request();}
-done(0);", script.times, script.interval, script.jobs.Count, prices, quantities, symbols, sides);
+                        driver.ExecuteAsyncScript(Resources.order, script.times, script.interval, script.orderWait, script.jobs.Count, prices, quantities, symbols, sides);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Console.Out.WriteLine(e);
                     }
-                    //try
-                    //{
-                    //    var later = 1000 - millisecond - script.interval;
-                    //    if (later < 0)
-                    //    {
-                    //        later = 0;
-                    //    }
-                    //    Thread.Sleep(later);
-                    //}
-                    //catch (Exception)
-                    //{
-                    //}
-
-                    //foreach (var job in script.jobs)
-                    //{
-
-                    //    var jobTask = new JobTask(job, this.cookieString, this.CSRFToken, script.times);
-                    //    jobTask.run();
-                    //}
 
                     return true;
                 }
@@ -168,25 +132,18 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
 
         public override long getResponseTime()
         {
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
+            long time = 0;
             try
             {
-                driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
-                long time = 0;
-                try
-                {
-                    time = (long)driver.ExecuteAsyncScript(@"var done=arguments[0];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();done(end-start);});");
-                }
-                catch (Exception e)
-                {
-                    Console.Out.WriteLine(e);
-                }
-
-                return time;
+                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date(resp);done(end-start);});");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return 0;
+                Console.Out.WriteLine(e);
             }
+
+            return time;
         }
 
         public void getHeader()
@@ -209,6 +166,85 @@ done(0);", script.times, script.interval, script.jobs.Count, prices, quantities,
 
                 var jobTask = new JobTask(job, this.cookieString, this.CSRFToken, 1);
                 jobTask.run();
+            }
+        }
+
+        public void sellAndBuy(Script script)
+        {
+
+            for (int i = 0; i < script.jobs.Count; i++)
+            {
+                var job = script.jobs[i];
+                try
+                {
+                    driver.ExecuteAsyncScript(Resources.sellbuy, job.code, job.count);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+            }
+        }
+
+        public long getOrderResponse(Script script)
+        {
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
+            long time = 0;
+            for (int i = 0; i < script.jobs.Count; i++)
+            {
+                var job = script.jobs[i];
+                try
+                {
+                    time = (long)driver.ExecuteAsyncScript(Resources.speed, job.code, job.price);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+            }
+            return time;
+        }
+
+        public void readLogs()
+        {
+            driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
+            try
+            {
+                ReadOnlyCollection<object> logs = null;
+                try
+                {
+                    logs = (ReadOnlyCollection<object>)driver.ExecuteAsyncScript(Resources.log);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e);
+                }
+                if (logs != null && logs.Count > 0)
+                {
+                    var content = "";
+                    foreach (string log in logs)
+                    {
+                        dynamic obj = JsonConvert.DeserializeObject(log);
+                        var time = obj.time;
+                        var data = obj.data;
+                        if (data.transactTime != null)
+                        {
+                            var transactTime = orginalTime.AddMilliseconds((long)data.transactTime);
+                            data.transactTime = transactTime.ToString(@"yyyy-MM-dd HH:mm:ss.FFF");
+                        }
+                        var currentTime = orginalTime.AddMilliseconds((long)time);
+                        content += currentTime.ToString(@"yyyy-MM-dd HH:mm:ss.FFF");
+                        content += ":";
+                        content += JsonConvert.SerializeObject(data);
+                        content += "\r\n";
+                    }
+
+                    File.AppendAllText(Environment.CurrentDirectory + @"\log.txt", content);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Out.WriteLine(e);
             }
         }
     }
