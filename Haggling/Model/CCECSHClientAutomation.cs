@@ -30,9 +30,9 @@ namespace Haggling.Model
             return false;
         }
 
-        public override long getResponseTime()
+        public override Array getResponseTime()
         {
-            return 0;
+            return new[] { 0, 0 };
         }
     }
 }

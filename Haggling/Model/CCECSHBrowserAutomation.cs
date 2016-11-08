@@ -130,20 +130,27 @@ namespace Haggling.Model
             }
         }
 
-        public override long getResponseTime()
+        public override Array getResponseTime()
         {
             driver.Manage().Timeouts().SetScriptTimeout(new TimeSpan(0, 0, 0, 0, 500));
-            long time = 0;
+            ReadOnlyCollection<object> times = null;
             try
             {
-                time = (long)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date(resp);done(end-start);});");
+                times = (ReadOnlyCollection<object>)driver.ExecuteAsyncScript(@"var done=arguments[arguments.length-1];var start=new Date();$.get('/exchange/public/serverTime').then(function(resp){var end=new Date();var server=new Date(resp);done([end-start, server-end]);});");
             }
             catch (Exception e)
             {
                 Console.Out.WriteLine(e);
             }
 
-            return time;
+            if (times != null)
+            {
+                return new[] { times[0], times[1] };
+            }
+            else
+            {
+                return new[] { 0, 0 };
+            }
         }
 
         public void getHeader()

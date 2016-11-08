@@ -42,6 +42,8 @@
             this.agentTitle = new System.Windows.Forms.Label();
             this.agent = new System.Windows.Forms.ComboBox();
             this.scriptState = new System.Windows.Forms.GroupBox();
+            this.responseTime = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textScript = new System.Windows.Forms.Button();
             this.scriptData = new System.Windows.Forms.DataGridView();
@@ -50,7 +52,7 @@
             this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.side = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.responseRefreshButton = new System.Windows.Forms.Button();
-            this.responseTime = new System.Windows.Forms.Label();
+            this.deviationTime = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -197,12 +199,14 @@
             // 
             // scriptState
             // 
+            this.scriptState.Controls.Add(this.responseTime);
+            this.scriptState.Controls.Add(this.label11);
             this.scriptState.Controls.Add(this.label4);
             this.scriptState.Controls.Add(this.orderWait);
             this.scriptState.Controls.Add(this.textScript);
             this.scriptState.Controls.Add(this.scriptData);
             this.scriptState.Controls.Add(this.responseRefreshButton);
-            this.scriptState.Controls.Add(this.responseTime);
+            this.scriptState.Controls.Add(this.deviationTime);
             this.scriptState.Controls.Add(this.label7);
             this.scriptState.Controls.Add(this.interval);
             this.scriptState.Controls.Add(this.label6);
@@ -217,6 +221,24 @@
             this.scriptState.TabIndex = 100;
             this.scriptState.TabStop = false;
             this.scriptState.Text = "脚本参数";
+            // 
+            // responseTime
+            // 
+            this.responseTime.AutoSize = true;
+            this.responseTime.Location = new System.Drawing.Point(232, 267);
+            this.responseTime.Name = "responseTime";
+            this.responseTime.Size = new System.Drawing.Size(34, 17);
+            this.responseTime.TabIndex = 21;
+            this.responseTime.Text = "0ms";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(148, 267);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(78, 17);
+            this.label11.TabIndex = 20;
+            this.label11.Text = "响应时间：";
             // 
             // label4
             // 
@@ -284,7 +306,7 @@
             // responseRefreshButton
             // 
             this.responseRefreshButton.Enabled = false;
-            this.responseRefreshButton.Location = new System.Drawing.Point(150, 260);
+            this.responseRefreshButton.Location = new System.Drawing.Point(277, 260);
             this.responseRefreshButton.Name = "responseRefreshButton";
             this.responseRefreshButton.Size = new System.Drawing.Size(75, 30);
             this.responseRefreshButton.TabIndex = 15;
@@ -292,14 +314,14 @@
             this.responseRefreshButton.UseVisualStyleBackColor = true;
             this.responseRefreshButton.Click += new System.EventHandler(this.responseRefreshButton_Click);
             // 
-            // responseTime
+            // deviationTime
             // 
-            this.responseTime.AutoSize = true;
-            this.responseTime.Location = new System.Drawing.Point(90, 267);
-            this.responseTime.Name = "responseTime";
-            this.responseTime.Size = new System.Drawing.Size(34, 17);
-            this.responseTime.TabIndex = 14;
-            this.responseTime.Text = "0ms";
+            this.deviationTime.AutoSize = true;
+            this.deviationTime.Location = new System.Drawing.Point(90, 267);
+            this.deviationTime.Name = "deviationTime";
+            this.deviationTime.Size = new System.Drawing.Size(34, 17);
+            this.deviationTime.TabIndex = 14;
+            this.deviationTime.Text = "0ms";
             // 
             // label7
             // 
@@ -308,7 +330,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(78, 17);
             this.label7.TabIndex = 13;
-            this.label7.Text = "响应时间：";
+            this.label7.Text = "误差时间：";
             // 
             // label6
             // 
@@ -658,7 +680,7 @@
         private Control.NumericTextBox interval;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button responseRefreshButton;
-        private System.Windows.Forms.Label responseTime;
+        private System.Windows.Forms.Label deviationTime;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView scriptData;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
@@ -687,6 +709,8 @@
         private System.Windows.Forms.Button readLogs;
         private System.Windows.Forms.Label label4;
         private Control.NumericTextBox orderWait;
+        private System.Windows.Forms.Label responseTime;
+        private System.Windows.Forms.Label label11;
     }
 }
 

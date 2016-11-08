@@ -319,7 +319,8 @@ namespace Haggling
         {
             if (aa != null)
             {
-                this.responseTime.Text = aa.getResponseTime() + "ms";
+                this.responseTime.Text = aa.getResponseTime().GetValue(0) + "ms";
+                this.deviationTime.Text = aa.getResponseTime().GetValue(1) + "ms";
             }
         }
 

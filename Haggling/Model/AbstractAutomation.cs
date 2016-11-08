@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Haggling.Model
 {
     public abstract class AbstractAutomation
@@ -11,6 +12,6 @@ namespace Haggling.Model
 
         public abstract void dispose();
 
-        public abstract long getResponseTime();
+        public abstract Array getResponseTime();
     }
 }
