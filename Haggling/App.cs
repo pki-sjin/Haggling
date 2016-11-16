@@ -22,7 +22,7 @@ namespace Haggling
         public App()
         {
             InitializeComponent();
-            var agents = new[] { new { Text = "上文众申", Value = AgentType.CCECSH } };
+            var agents = new[] { new { Text = "上文众申", Value = AgentType.CCECSH }, new { Text = "郑棉黄海", Value = AgentType.ZMHH } };
             this.agent.DataSource = agents;
             this.agent.SelectedIndex = -1;
             var sides = new[] { new { Text = "买", Value = "BUY" }, new { Text = "卖", Value = "SELL" } };
@@ -64,6 +64,35 @@ namespace Haggling
         {
 
             factor.Type = this.agent.SelectedValue == null ? AgentType.UNDEFINED : (AgentType)this.agent.SelectedValue;
+            if (factor.Type == AgentType.CCECSH)
+            {
+                this.browserMode.Visible = true;
+                this.clientMode.Visible = false;
+                this.clientMode.Checked = false;
+                if (this.browserMode.Checked)
+                {
+                    factor.Mode = ModeType.BROWSER;
+                }
+                else
+                {
+                    factor.Mode = ModeType.UNDEFINED;
+                }
+            }
+            else if (factor.Type == AgentType.ZMHH)
+            {
+                factor.Mode = ModeType.UNDEFINED;
+                this.browserMode.Checked = false;
+                this.browserMode.Visible = false;
+                this.clientMode.Visible = true;
+                if (this.clientMode.Checked)
+                {
+                    factor.Mode = ModeType.CLIENT;
+                }
+                else
+                {
+                    factor.Mode = ModeType.UNDEFINED;
+                }
+            }
             validateLaunchState();
         }
 
@@ -120,7 +149,10 @@ namespace Haggling
                             this.statusContent.Text = Resources.STATUS_CONTENT_CHECK_SUCCESS;
                             this.enableScript(true);
                             var a = aa as CCECSHBrowserAutomation;
-                            a.getHeader();
+                            if (a != null)
+                            {
+                                a.getHeader();
+                            }
                             // 验证成功后，运行守护线程保证浏览器正常运行
                             this.sync.Start();
                         });
@@ -218,32 +250,26 @@ namespace Haggling
                     script.orderWait = this.orderWait.IntValue;
                     this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTING;
 
-                    var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
-                    var response = request.GetResponse();
-                    var streamReader = new StreamReader(response.GetResponseStream());
-                    var responseContent = streamReader.ReadToEnd();
-                    response.Close();
-                    var currentTime = orginalTime.AddMilliseconds(long.Parse(responseContent));
-
-                    var targetTime = DateTime.Parse(this.time.Text);
-
-                    var intervalTime = (targetTime.Hour - currentTime.Hour) * 3600 * 1000 + (targetTime.Minute - currentTime.Minute) * 60 * 1000 + (targetTime.Second - currentTime.Second) * 1000;
+                    // prepare to execute
+                    this.executeScript.Enabled = false;
+                    var intervalTime = this.aa.prepare(script, DateTime.Parse(this.time.Text));
 
                     if (intervalTime < 0)
                     {
                         this.statusContent.Text = Resources.STATUS_TIME_ERROR;
-                        return;
                     }
                     else if (intervalTime <= 10 * 1000)
                     {
                         this.startScript();
-                        return;
                     }
-
-                    this.alarm.Interval = intervalTime - 10 * 1000;
-                    this.alarm.Start();
-                    this.executeScript.Text = "停止";
-                    this.executeScript.Tag = "1";
+                    else
+                    {
+                        this.alarm.Interval = intervalTime - 10 * 1000;
+                        this.alarm.Start();
+                        this.executeScript.Text = "停止";
+                        this.executeScript.Tag = "1";
+                    }
+                    this.executeScript.Enabled = true;
                 }
                 else if (tag == "1")
                 {
@@ -356,8 +382,7 @@ namespace Haggling
                 this.script.jobs.Add(job);
             }
 
-            var a = aa as CCECSHBrowserAutomation;
-            a.testScript(script);
+            aa.testScript(this.script);
         }
 
         private void executeInSB_Click(object sender, EventArgs e)
@@ -372,7 +397,10 @@ namespace Haggling
                 job.count = count;
                 this.script.jobs.Add(job);
                 var a = aa as CCECSHBrowserAutomation;
-                a.sellAndBuy(script);
+                if (a != null)
+                {
+                    a.sellAndBuy(script);
+                }
             }
         }
 
@@ -394,7 +422,10 @@ namespace Haggling
                 job.price = price;
                 this.script.jobs.Add(job);
                 var a = aa as CCECSHBrowserAutomation;
-                this.speedResponseTime.Text = a.getOrderResponse(script) + "ms";
+                if (a != null)
+                {
+                    this.speedResponseTime.Text = a.getOrderResponse(script) + "ms";
+                }
             }
         }
 
@@ -403,7 +434,10 @@ namespace Haggling
             if (aa != null)
             {
                 var a = aa as CCECSHBrowserAutomation;
-                a.readLogs();
+                if (a != null)
+                {
+                    a.readLogs();
+                }
                 MessageBox.Show(this, "读取成功\r\n" + Environment.CurrentDirectory + @"\log.txt", "信息");
             }
         }

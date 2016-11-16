@@ -13,5 +13,9 @@ namespace Haggling.Model
         public abstract void dispose();
 
         public abstract Array getResponseTime();
+
+        public abstract void testScript(Script script);
+
+        public abstract int prepare(Script script, DateTime targetTime);
     }
 }

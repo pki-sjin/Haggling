@@ -151,7 +151,6 @@
             // clientMode
             // 
             this.clientMode.AutoSize = true;
-            this.clientMode.Enabled = false;
             this.clientMode.Location = new System.Drawing.Point(259, 51);
             this.clientMode.Name = "clientMode";
             this.clientMode.Size = new System.Drawing.Size(71, 21);
@@ -172,6 +171,7 @@
             this.browserMode.TabStop = true;
             this.browserMode.Text = "浏览器";
             this.browserMode.UseVisualStyleBackColor = true;
+            this.browserMode.Visible = false;
             this.browserMode.CheckedChanged += new System.EventHandler(this.browserMode_CheckedChanged);
             // 
             // agentTitle
@@ -258,7 +258,6 @@
             this.textScript.TabIndex = 17;
             this.textScript.Text = "测试";
             this.textScript.UseVisualStyleBackColor = true;
-            this.textScript.Visible = false;
             this.textScript.Click += new System.EventHandler(this.textScript_Click);
             // 
             // scriptData

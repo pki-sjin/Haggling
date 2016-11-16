@@ -10,7 +10,8 @@ namespace Haggling.Model
     public enum AgentType
     {
         UNDEFINED,
-        CCECSH // 上文众申
+        CCECSH, // 上文众申
+        ZMHH    // 郑棉黄海
     }
 
     public enum ModeType

@@ -39,6 +39,9 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -55,6 +58,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestStack.White">
+      <HintPath>..\packages\TestStack.White.0.13.3\lib\net40\TestStack.White.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationClient" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WebDriver, Version=2.53.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -78,7 +84,7 @@
     <Compile Include="Factory\AutomationFactory.cs" />
     <Compile Include="Model\AbstractAutomation.cs" />
     <Compile Include="Model\CCECSHBrowserAutomation.cs" />
-    <Compile Include="Model\CCECSHClientAutomation.cs" />
+    <Compile Include="Model\ZMHHClientAutomation.cs" />
     <Compile Include="Model\Factor.cs" />
     <Compile Include="Model\Script.cs" />
     <Compile Include="Program.cs" />

@@ -6,6 +6,7 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Net;
 namespace Haggling.Model
 {
     class CCECSHBrowserAutomation : AbstractAutomation
@@ -24,6 +25,17 @@ namespace Haggling.Model
         {
         }
 
+        public override int prepare(Script script, DateTime targetTime)
+        {
+            var request = WebRequest.Create("https://www.ccecsh.com/exchange/public/serverTime");
+            var response = request.GetResponse();
+            var streamReader = new StreamReader(response.GetResponseStream());
+            var responseContent = streamReader.ReadToEnd();
+            response.Close();
+            var currentTime = orginalTime.AddMilliseconds(long.Parse(responseContent));
+            
+            return (targetTime.Hour - currentTime.Hour) * 3600 * 1000 + (targetTime.Minute - currentTime.Minute) * 60 * 1000 + (targetTime.Second - currentTime.Second) * 1000;
+        }
 
         public override bool execute(Script script)
         {
@@ -166,7 +178,7 @@ namespace Haggling.Model
             }
         }
 
-        public void testScript(Script script)
+        public override void testScript(Script script)
         {
             foreach (var job in script.jobs)
             {

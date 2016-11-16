@@ -10,9 +10,9 @@ namespace Haggling.Factory
             {
                 switch (factor.Type)
                 {
-                    case AgentType.CCECSH:
+                    case AgentType.ZMHH:
                         {
-                            return new CCECSHClientAutomation();
+                            return new ZMHHClientAutomation();
                         }
                     default:
                         {
