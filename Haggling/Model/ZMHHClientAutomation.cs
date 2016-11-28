@@ -1,8 +1,10 @@
 ﻿
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Automation;
 using System.Windows.Forms;
 using TestStack.White.Configuration;
@@ -40,19 +42,61 @@ namespace Haggling.Model
 
         public override bool execute(Script script)
         {
+            var hWnd = FindWindow("Tfrm_Dialog", null);
+            ShowWindow(hWnd, 9);
+            SetForegroundWindow(hWnd);
             var currentTime = DateTime.Now;
             var serverTime = currentTime.ToString("HH:mm:ss");
             if (script.time.Equals(serverTime))
             {
-                var hWnd = FindWindow("Tfrm_Dialog", null);
-                ShowWindow(hWnd, 9);
-                SetForegroundWindow(hWnd);
                 var interval = 1000 - currentTime.Millisecond - script.interval;
                 Thread.Sleep(interval);
                 SendKeys.SendWait("{Enter}");
+                //var task = new Task(() =>
+                //{
+                //    for (var i = 0; i < script.times; i++)
+                //    {
+                //        if (!checkResult())
+                //        {
+                //            Thread.Sleep(script.orderWait);
+                //            retry();
+                //        }
+                //        else
+                //        {
+                //            return;
+                //        }
+                //    }
+                //});
+                //task.Start();
+
+                File.AppendAllText(Environment.CurrentDirectory + @"\log.txt", DateTime.Now.ToString("HH:mm:ss.fff") + "\r\n");
                 return true;
             }
             return false;
+        }
+
+        private bool checkResult(Script script)
+        {
+            Thread.Sleep(script.orderWait);
+            var hWnd = FindWindow("Tfrm_Dialog", null);
+            ShowWindow(hWnd, 9);
+            SetForegroundWindow(hWnd);
+            var dialog = application.GetWindow(SearchCriteria.ByClassName("Tfrm_Dialog"), InitializeOption.NoCache);
+            //TODO:
+
+            return true;
+        }
+
+        private void retry()
+        {
+            count.SetFocus();
+            SendKeys.SendWait("{Enter}");
+            Thread.Sleep(1000);
+            var hWnd = FindWindow("Tfrm_Dialog", null);
+            ShowWindow(hWnd, 9);
+            SetForegroundWindow(hWnd);
+            Thread.Sleep(1000);
+            SendKeys.SendWait("{Enter}");
         }
 
         public override int prepare(Script script, DateTime targetTime)
