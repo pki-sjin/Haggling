@@ -187,6 +187,7 @@ namespace Haggling
             this.speedExecute.Enabled = enabled;
             this.readLogs.Enabled = enabled;
             this.orderWait.Enabled = enabled;
+            this.execMultipleOrder.Enabled = enabled;
         }
 
         private void startScript()
@@ -194,6 +195,8 @@ namespace Haggling
             this.aa.clean();
             this.executeScript.Text = "停止";
             this.executeScript.Tag = "1";
+            this.execMultipleOrder.Text = "停止";
+            this.execMultipleOrder.Tag = "1";
             this.scriptTimer.Start();
         }
 
@@ -201,6 +204,8 @@ namespace Haggling
         {
             this.executeScript.Text = "执行";
             this.executeScript.Tag = "0";
+            this.execMultipleOrder.Text = "执行(预埋单)";
+            this.execMultipleOrder.Tag = "0";
             this.scriptTimer.Stop();
         }
 
@@ -439,6 +444,54 @@ namespace Haggling
                     a.readLogs();
                 }
                 MessageBox.Show(this, "读取成功\r\n" + Environment.CurrentDirectory + @"\log.txt", "信息");
+            }
+        }
+
+        private void execMultipleOrder_Click(object sender, EventArgs e)
+        {
+            if (aa != null)
+            {
+                var tag = this.executeScript.Tag as string;
+                if (tag == "0")
+                {
+                    script.time = this.time.Text;
+                    script.jobs.Clear();
+                    // repeat and interval times
+                    script.times = Decimal.ToInt32(this.times.Value);
+                    script.interval = this.interval.IntValue;
+                    script.orderWait = this.orderWait.IntValue;
+                    this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTING;
+
+                    var targetTime = DateTime.Parse(this.time.Text);
+
+                    var currentTime = DateTime.Now;
+                    var intervalTime = (targetTime.Hour - currentTime.Hour) * 3600 * 1000 + (targetTime.Minute - currentTime.Minute) * 60 * 1000 + (targetTime.Second - currentTime.Second) * 1000;
+
+                    if (intervalTime < 0)
+                    {
+                        this.statusContent.Text = Resources.STATUS_TIME_ERROR;
+                    }
+                    else if (intervalTime <= 10 * 1000)
+                    {
+                        this.startScript();
+                    }
+                    else
+                    {
+                        this.alarm.Interval = intervalTime - 10 * 1000;
+                        this.alarm.Start();
+                        this.execMultipleOrder.Text = "停止";
+                        this.execMultipleOrder.Tag = "1";
+                    }
+                    this.executeScript.Enabled = true;
+                }
+                else if (tag == "1")
+                {
+                    // 停止
+                    this.statusContent.Text = Resources.STATUS_CONTENT_EXECUTE_STOP;
+                    this.alarm.Stop();
+                    this.stopScript();
+                }
+
             }
         }
     }

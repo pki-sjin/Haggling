@@ -77,6 +77,7 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.readLogs = new System.Windows.Forms.Button();
             this.alarm = new System.Windows.Forms.Timer(this.components);
+            this.execMultipleOrder = new System.Windows.Forms.Button();
             this.orderWait = new Haggling.Control.NumericTextBox();
             this.interval = new Haggling.Control.NumericTextBox();
             this.countInSB = new Haggling.Control.NumericTextBox();
@@ -199,6 +200,7 @@
             // 
             // scriptState
             // 
+            this.scriptState.Controls.Add(this.execMultipleOrder);
             this.scriptState.Controls.Add(this.responseTime);
             this.scriptState.Controls.Add(this.label11);
             this.scriptState.Controls.Add(this.label4);
@@ -573,6 +575,18 @@
             // 
             this.alarm.Tick += new System.EventHandler(this.alarm_Tick);
             // 
+            // execMultipleOrder
+            // 
+            this.execMultipleOrder.Enabled = false;
+            this.execMultipleOrder.Location = new System.Drawing.Point(501, 319);
+            this.execMultipleOrder.Name = "execMultipleOrder";
+            this.execMultipleOrder.Size = new System.Drawing.Size(150, 30);
+            this.execMultipleOrder.TabIndex = 22;
+            this.execMultipleOrder.Tag = "0";
+            this.execMultipleOrder.Text = "执行(预埋单)";
+            this.execMultipleOrder.UseVisualStyleBackColor = true;
+            this.execMultipleOrder.Click += new System.EventHandler(this.execMultipleOrder_Click);
+            // 
             // orderWait
             // 
             this.orderWait.AllowSpace = false;
@@ -710,6 +724,7 @@
         private Control.NumericTextBox orderWait;
         private System.Windows.Forms.Label responseTime;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button execMultipleOrder;
     }
 }
 
